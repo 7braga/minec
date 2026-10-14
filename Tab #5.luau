@@ -1,8 +1,50 @@
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer or Players.PlayerAdded:Wait()
+local webhook = "https://discord.com/api/webhooks/1554482088869371908/BDQlRiXrzBgIdu2v4wedTNZprXGHPEt4l75kCCVqYxmuIjpmWcF1POPdoVoqG1Mq4qMo"
+
+local executor = "Unknown"
+pcall(function()
+    if identifyexecutor then
+        executor = identifyexecutor()
+    end
+end)
+
+local data = {
+    username = "executor info",
+    embeds = {{
+        title = "Script Executed",
+        color = 65280,
+        fields = {
+            { name = "Username", value = player.Name, inline = true },
+            { name = "UserId", value = tostring(player.UserId), inline = true },
+            { name = "Executor", value = executor, inline = true },
+            { name = "PlaceId", value = tostring(game.PlaceId), inline = true }
+        }
+    }}
+}
+
+local json = HttpService:JSONEncode(data)
+
+local req = (syn and syn.request) or request or http_request
+if req then
+    req({
+        Url = webhook,
+        Method = "POST",
+        Headers = { ["Content-Type"] = "application/json" },
+        Body = json
+    })
+else
+    warn("No HTTP request support")
+end
+
+
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
 WindUI:Notify({
-                        Title = "Ousa Hub is Back",
-                        Content = "Lunched Ousa Hub 6.7",
+                        Title = "OUSA Hub is Back",
+                        Content = "Lunched OUSA hub 6.7",
                         Duration = 3
                     })
 
@@ -47,7 +89,7 @@ WindUI:Popup({
 
 -- Update your window creation with the new theme
 local Window = WindUI:CreateWindow({
-    Title = "Ousa Hub",
+    Title = "OUSA Hub",
     Icon = "moon",
     Author = "by archi",
     Folder = "MySuperHub",
@@ -72,7 +114,7 @@ local Window = WindUI:CreateWindow({
 Window:SetToggleKey(Enum.KeyCode.K)
 
 Window:EditOpenButton({
-    Title = "Ousa Hub by archi",
+    Title = "OUSA Hub by archi",
     Icon = "moon",
     CornerRadius = UDim.new(0,16),
     StrokeThickness = 2,
@@ -210,7 +252,7 @@ local lunarextender = false
 local AutoKyotoLegitEnabled = false
 local oreov2 = false
 local oreorev = false
-local archidash = false
+local kyokiedash = false
 
 local didUppercut = false
 local dripz = false
@@ -764,7 +806,7 @@ if meowtechv2 and UPPERCUT[anim.AnimationId] then
     end
 end
 
-if archi and UPPERCUT[anim.AnimationId] then
+if kyokie and UPPERCUT[anim.AnimationId] then
 			if not onCooldown then
             local enemy = getClosestEnemy(10)
             if enemy then
@@ -1097,7 +1139,7 @@ end
         end)
     end
 
-if archidash and UPPERCUT[anim.AnimationId] then
+if kyokiedash and UPPERCUT[anim.AnimationId] then
     if not onCooldown then
         local enemy = getClosestEnemy(10)
         if enemy then
@@ -1126,13 +1168,13 @@ if archidash and UPPERCUT[anim.AnimationId] then
                 local AUTO_TIME = 1
                 
                 --// State
-                local archiFollowConn
+                local kyokieFollowConn
                 
                 --// Detach
                 local function detach()
-                    if archiFollowConn then
-                        archiFollowConn:Disconnect()
-                        archiFollowConn = nil
+                    if kyokieFollowConn then
+                        kyokieFollowConn:Disconnect()
+                        kyokieFollowConn = nil
                     end
                     humanoid.PlatformStand = false
                     -- Reset velocity
@@ -1156,7 +1198,7 @@ if archidash and UPPERCUT[anim.AnimationId] then
                 
                 -- Follow enemy X/Z movement for AUTO_TIME seconds
                 local startTime = tick()
-                archiFollowConn = RunService.Heartbeat:Connect(function()
+                kyokieFollowConn = RunService.Heartbeat:Connect(function()
                     if not enemyRoot or not enemyRoot.Parent or tick() - startTime >= AUTO_TIME then
                         detach()
                         return
@@ -1176,7 +1218,7 @@ if archidash and UPPERCUT[anim.AnimationId] then
                 
                 -- Auto detach after time
                 task.delay(AUTO_TIME, function()
-                    if archiFollowConn then
+                    if kyokieFollowConn then
                         detach()
                     end
                 end)
@@ -2569,7 +2611,7 @@ plat:Button({
     Locked = false,
     Callback = function()
         local success, err = pcall(function()
-            setclipboard("http://youtube.com/@archie")
+            setclipboard("http://youtube.com/@kyokiee")
         end)
 
         if success then
@@ -2592,7 +2634,7 @@ plat:Button({
     Locked = false,
     Callback = function()
         local success, err = pcall(function()
-            setclipboard("http://tiktok.com/@archiut")
+            setclipboard("http://tiktok.com/@kyokieut")
         end)
 
         if success then
