@@ -1,50 +1,8 @@
-local HttpService = game:GetService("HttpService")
-local Players = game:GetService("Players")
-
-local player = Players.LocalPlayer or Players.PlayerAdded:Wait()
-local webhook = "
-
-local executor = "Unknown"
-pcall(function()
-    if identifyexecutor then
-        executor = identifyexecutor()
-    end
-end)
-
-local data = {
-    username = "executor info",
-    embeds = {{
-        title = "Script Executed",
-        color = 65280,
-        fields = {
-            { name = "Username", value = player.Name, inline = true },
-            { name = "UserId", value = tostring(player.UserId), inline = true },
-            { name = "Executor", value = executor, inline = true },
-            { name = "PlaceId", value = tostring(game.PlaceId), inline = true }
-        }
-    }}
-}
-
-local json = HttpService:JSONEncode(data)
-
-local req = (syn and syn.request) or request or http_request
-if req then
-    req({
-        Url = webhook,
-        Method = "POST",
-        Headers = { ["Content-Type"] = "application/json" },
-        Body = json
-    })
-else
-    warn("No HTTP request support")
-end
-
-
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
 WindUI:Notify({
-                        Title = "Lunar Hub is Back",
-                        Content = "Lunched Lunar hub 6.7",
+                        Title = "Ousa Hub is Back",
+                        Content = "Lunched Ousa Hub 6.7",
                         Duration = 3
                     })
 
@@ -68,7 +26,7 @@ WindUI:Popup({
             Variant = "Primary",
             Callback = function()
                 if setclipboard then
-                    setclipboard("https://discord.gg/YJ64HgMNfd")
+                    setclipboard("https://discord.gg/dCnvGNYANP")
                     WindUI:Notify({
                         Title = "Copied!",
                         Content = "Discord invite copied to clipboard.",
@@ -89,8 +47,8 @@ WindUI:Popup({
 
 -- Update your window creation with the new theme
 local Window = WindUI:CreateWindow({
-    Title = "ousa Hub",
-    Icon = "cat",
+    Title = "Ousa Hub",
+    Icon = "moon",
     Author = "by archi",
     Folder = "MySuperHub",
     Size = UDim2.fromOffset(800, 700),
@@ -114,8 +72,8 @@ local Window = WindUI:CreateWindow({
 Window:SetToggleKey(Enum.KeyCode.K)
 
 Window:EditOpenButton({
-    Title = "ousa hub by archi",
-    Icon = "cat"
+    Title = "Ousa Hub by archi",
+    Icon = "moon",
     CornerRadius = UDim.new(0,16),
     StrokeThickness = 2,
     Color = ColorSequence.new( -- blue gradient for glow
@@ -252,7 +210,7 @@ local lunarextender = false
 local AutoKyotoLegitEnabled = false
 local oreov2 = false
 local oreorev = false
-local kyokiedash = false
+local archidash = false
 
 local didUppercut = false
 local dripz = false
@@ -806,7 +764,7 @@ if meowtechv2 and UPPERCUT[anim.AnimationId] then
     end
 end
 
-if kyokie and UPPERCUT[anim.AnimationId] then
+if archi and UPPERCUT[anim.AnimationId] then
 			if not onCooldown then
             local enemy = getClosestEnemy(10)
             if enemy then
@@ -1139,7 +1097,7 @@ end
         end)
     end
 
-if kyokiedash and UPPERCUT[anim.AnimationId] then
+if archidash and UPPERCUT[anim.AnimationId] then
     if not onCooldown then
         local enemy = getClosestEnemy(10)
         if enemy then
@@ -1168,13 +1126,13 @@ if kyokiedash and UPPERCUT[anim.AnimationId] then
                 local AUTO_TIME = 1
                 
                 --// State
-                local kyokieFollowConn
+                local archiFollowConn
                 
                 --// Detach
                 local function detach()
-                    if kyokieFollowConn then
-                        kyokieFollowConn:Disconnect()
-                        kyokieFollowConn = nil
+                    if archiFollowConn then
+                        archiFollowConn:Disconnect()
+                        archiFollowConn = nil
                     end
                     humanoid.PlatformStand = false
                     -- Reset velocity
@@ -1198,7 +1156,7 @@ if kyokiedash and UPPERCUT[anim.AnimationId] then
                 
                 -- Follow enemy X/Z movement for AUTO_TIME seconds
                 local startTime = tick()
-                kyokieFollowConn = RunService.Heartbeat:Connect(function()
+                archiFollowConn = RunService.Heartbeat:Connect(function()
                     if not enemyRoot or not enemyRoot.Parent or tick() - startTime >= AUTO_TIME then
                         detach()
                         return
@@ -1218,7 +1176,7 @@ if kyokiedash and UPPERCUT[anim.AnimationId] then
                 
                 -- Auto detach after time
                 task.delay(AUTO_TIME, function()
-                    if kyokieFollowConn then
+                    if archiFollowConn then
                         detach()
                     end
                 end)
@@ -2587,7 +2545,7 @@ plat:Button({
     Locked = false,
     Callback = function()
         local success, err = pcall(function()
-            setclipboard("https://discord.gg/")
+            setclipboard("https://discord.gg/n7rjmS4sNp")
         end)
 
         if success then
@@ -2611,7 +2569,7 @@ plat:Button({
     Locked = false,
     Callback = function()
         local success, err = pcall(function()
-            setclipboard("http://youtube.com/@kyokiee")
+            setclipboard("http://youtube.com/@archie")
         end)
 
         if success then
@@ -2634,7 +2592,7 @@ plat:Button({
     Locked = false,
     Callback = function()
         local success, err = pcall(function()
-            setclipboard("http://tiktok.com/@kyokieut")
+            setclipboard("http://tiktok.com/@archiut")
         end)
 
         if success then
