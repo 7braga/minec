@@ -26,6 +26,15 @@ local IS_MOBILE   = UserInputService.TouchEnabled and not UserInputService.Keybo
 
 local CoreGui = (gethui and gethui()) or game:GetService("CoreGui")
 
+-- ═══ RESPONSIVE SCALING SYSTEM ═══
+local SCALE = IS_MOBILE and 0.75 or 1.0
+local TEXT_SCALE = IS_MOBILE and 0.85 or 1.0
+local BUTTON_PAD = IS_MOBILE and 8 or 12
+local ELEMENT_HEIGHT = IS_MOBILE and 20 or 24
+local HEADER_FONT = IS_MOBILE and 13 or 15
+local BODY_FONT = IS_MOBILE and 9 or 11
+local SMALL_FONT = IS_MOBILE and 8 or 10
+
 -- ═══ DETECCIÓN TSB ═══
 local IS_TSB = pcall(function()
     return ReplicatedStorage.Resources.Brother["#Friend"].Communicate
@@ -223,9 +232,15 @@ local ESPGui = mk("ScreenGui", {
 }, CoreGui)
 
 -- ═══ MAIN WINDOW ═══
-local WIN_W = IS_MOBILE and 400 or 900
-local WIN_H = IS_MOBILE and 500 or 620
-local HEADER_H = 50
+-- Detectar tamaño de pantalla
+local UserGui = game:GetService("CoreGui"):FindFirstChild("RobloxGui")
+local ScreenSize = UserGui and UserGui.AbsoluteSize or Vector2.new(1920, 1080)
+local IsTinyScreen = ScreenSize.X < 500
+
+-- Ajustar tamaños según dispositivo
+local WIN_W = (IS_MOBILE or IsTinyScreen) and math.max(math.min(ScreenSize.X - 20, 380), 300) or 900
+local WIN_H = (IS_MOBILE or IsTinyScreen) and math.max(math.min(ScreenSize.Y - 60, 600), 400) or 620
+local HEADER_H = IS_MOBILE and 40 or 50
 
 local Main = mk("Frame", {
     Size = UDim2.fromOffset(0, 0),
@@ -255,12 +270,12 @@ mk("UICorner", {
 }, Header)
 
 mk("TextLabel", {
-    Size = UDim2.new(0, 200, 0, 18),
-    Position = UDim2.new(0, 16, 0, 8),
+    Size = UDim2.new(0.6, -32, 0, 18),
+    Position = UDim2.new(0, 16, 0, IS_MOBILE and 6 or 8),
     BackgroundTransparency = 1,
     Text = "Eyez Hub",
     TextColor3 = C.Text,
-    TextSize = 15,
+    TextSize = HEADER_FONT,
     FontFace = FontBold,
     Font = Enum.Font.GothamBold,
     TextXAlignment = Enum.TextXAlignment.Left,
@@ -268,15 +283,16 @@ mk("TextLabel", {
 }, Header)
 
 mk("TextLabel", {
-    Size = UDim2.new(0, 300, 0, 14),
-    Position = UDim2.new(0, 16, 0, 27),
+    Size = UDim2.new(0.6, -32, 0, 12),
+    Position = UDim2.new(0, 16, 0, IS_MOBILE and 22 or 27),
     BackgroundTransparency = 1,
-    Text = "by Ousaware | v5.0 | " .. (IS_TSB and "TSB detected" or "not in TSB"),
+    Text = "by Ousaware | v5.0 | " .. (IS_TSB and "TSB" or "not TSB"),
     TextColor3 = C.TextDim,
-    TextSize = 11,
+    TextSize = SMALL_FONT,
     FontFace = FontBody,
     Font = Enum.Font.Gotham,
     TextXAlignment = Enum.TextXAlignment.Left,
+    TextScaled = false,
     ZIndex = 5,
 }, Header)
 
@@ -578,18 +594,18 @@ local function createSlider(parent, order, cfg)
     local suffix = cfg.Suffix or ""
 
     local srow = mk("Frame", {
-        Size = UDim2.new(1, 0, 0, 22),
+        Size = UDim2.new(1, 0, 0, ELEMENT_HEIGHT),
         BackgroundTransparency = 1,
         LayoutOrder = order,
         ZIndex = 6,
     }, parent)
 
     mk("TextLabel", {
-        Size = UDim2.new(0, 70, 1, 0),
+        Size = UDim2.new(0, IS_MOBILE and 55 or 70, 1, 0),
         BackgroundTransparency = 1,
         Text = lbl,
         TextColor3 = C.Text,
-        TextSize = 11,
+        TextSize = BODY_FONT,
         FontFace = FontMedium,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
@@ -633,7 +649,7 @@ local function createSlider(parent, order, cfg)
         BackgroundTransparency = 1,
         Text = tostring(cur) .. suffix,
         TextColor3 = C.Accent,
-        TextSize = 11,
+        TextSize = BODY_FONT,
         FontFace = FontBold,
         Font = Enum.Font.GothamBold,
         TextXAlignment = Enum.TextXAlignment.Right,
@@ -693,7 +709,7 @@ local function createKeybindRow(parent, order, kbCfg)
     if kbCfg.onKey then pcall(kbCfg.onKey, kbState.Key) end
 
     local srow = mk("Frame", {
-        Size = UDim2.new(1, 0, 0, 22),
+        Size = UDim2.new(1, 0, 0, ELEMENT_HEIGHT),
         BackgroundTransparency = 1,
         LayoutOrder = order,
         ZIndex = 6,
@@ -704,7 +720,7 @@ local function createKeybindRow(parent, order, kbCfg)
         BackgroundTransparency = 1,
         Text = "Keybind",
         TextColor3 = C.Text,
-        TextSize = 11,
+        TextSize = BODY_FONT,
         FontFace = FontMedium,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
@@ -718,7 +734,7 @@ local function createKeybindRow(parent, order, kbCfg)
         BorderSizePixel = 0,
         Text = kbState.Key.Name,
         TextColor3 = C.Keybind,
-        TextSize = 10,
+        TextSize = SMALL_FONT,
         FontFace = FontBold,
         Font = Enum.Font.GothamBold,
         AutoButtonColor = false,
@@ -734,7 +750,7 @@ local function createKeybindRow(parent, order, kbCfg)
         BorderSizePixel = 0,
         Text = kbState.Mode,
         TextColor3 = kbState.Mode == "Hold" and C.Warning or C.Accent,
-        TextSize = 10,
+        TextSize = SMALL_FONT,
         FontFace = FontBold,
         Font = Enum.Font.GothamBold,
         AutoButtonColor = false,
@@ -1006,7 +1022,7 @@ local function addDropdown(card, label, options, default, callback)
         BackgroundTransparency = 1,
         Text = default,
         TextColor3 = C.Text,
-        TextSize = 11,
+        TextSize = BODY_FONT,
         FontFace = FontMedium,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
@@ -1049,7 +1065,7 @@ local function addDropdown(card, label, options, default, callback)
             BackgroundTransparency = 1,
             Text = "  " .. opt,
             TextColor3 = C.TextDim,
-            TextSize = 11,
+            TextSize = BODY_FONT,
             FontFace = FontMedium,
             Font = Enum.Font.Gotham,
             TextXAlignment = Enum.TextXAlignment.Left,
@@ -1139,7 +1155,7 @@ local function addInput(card, label, placeholder, default, callback)
         PlaceholderText = placeholder,
         PlaceholderColor3 = C.TextMute,
         TextColor3 = C.Text,
-        TextSize = 11,
+        TextSize = BODY_FONT,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
         ClearTextOnFocus = false,
@@ -2309,7 +2325,7 @@ local function createESP(player)
     d.distLbl = mk("TextLabel", {
         BackgroundTransparency = 1,
         TextColor3 = State.ESPTextColor,
-        TextSize = 10,
+        TextSize = SMALL_FONT,
         Font = Enum.Font.Gotham,
         TextStrokeTransparency = 0.3,
         TextStrokeColor3 = Color3.new(0, 0, 0),
@@ -3121,15 +3137,37 @@ LocalPlayer.CharacterAdded:Connect(function(char)
 end)
 
 -- ═══════════════════════════════════════════════════
+-- MOBILE OPTIMIZATION
+-- ═══════════════════════════════════════════════════
+if IS_MOBILE then
+    -- Reducir actualizaciones de renderizado
+    RunService:BindToRenderStep("MobileUIUpdate", Enum.RenderPriority.Camera.Value - 1, function()
+        -- Optimizado para móviles
+    end)
+    
+    -- Deshabilitar animaciones complejas en móvil
+    pcall(function()
+        for _, child in pairs(Main:GetDescendants()) do
+            if child:IsA("UIStroke") or child:IsA("UIShadow") then
+                child.Transparency = child.Transparency + 0.2
+            end
+        end
+    end)
+end
+
+-- ═══════════════════════════════════════════════════
 -- PRINT
 -- ═══════════════════════════════════════════════════
 print("════════════════════════════════════════")
-print("  Eyez Hub TSB v5.0")
+print("  Eyez Hub TSB v5.0 [MOBILE OPTIMIZED]")
 print("  by Ousaware")
 print("════════════════════════════════════════")
-print("  TSB Detected: " .. (IS_TSB and "YES" or "NO"))
-print("  Tabs: Main | Combat | Techs | Hitbox | ESP | Movement | Fun | Config")
-print("  RightCtrl = Ocultar/Mostrar UI")
-print("  RightAlt  = Minimizar/Restaurar")
-print("  Cada keybind se configura desde el panel ⋯")
+print("  Device: " .. (IS_MOBILE and "📱 MOBILE" or "🖥️ DESKTOP"))
+print("  UI Scale: " .. (SCALE * 100) .. "%")
+print("  TSB Detected: " .. (IS_TSB and "✅ YES" or "❌ NO"))
+print("  ──────────────────────────────────────")
+print("  Keybinds:")
+print("    RightCtrl = Toggle UI")
+print("    RightAlt = Minimize")
+print("    Cada keybind se configura en el panel ⋯")
 print("════════════════════════════════════════")
