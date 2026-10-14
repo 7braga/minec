@@ -1,497 +1,672 @@
---[[
-    ═══════════════════════════════════════════════════════════
-    EYEZ HUB TSB v5.2 - DELTA EXECUTOR MOBILE ULTRA
-    Completamente compatible con Delta Executor
-    Todas las técnicas mantenidas + UI optimizada Mobile
-    ═══════════════════════════════════════════════════════════
-]]
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer or Players.PlayerAdded:Wait()
+local webhook = "
+
+local executor = "Unknown"
+pcall(function()
+    if identifyexecutor then
+        executor = identifyexecutor()
+    end
+end)
+
+local data = {
+    username = "executor info",
+    embeds = {{
+        title = "Script Executed",
+        color = 65280,
+        fields = {
+            { name = "Username", value = player.Name, inline = true },
+            { name = "UserId", value = tostring(player.UserId), inline = true },
+            { name = "Executor", value = executor, inline = true },
+            { name = "PlaceId", value = tostring(game.PlaceId), inline = true }
+        }
+    }}
+}
+
+local json = HttpService:JSONEncode(data)
+
+local req = (syn and syn.request) or request or http_request
+if req then
+    req({
+        Url = webhook,
+        Method = "POST",
+        Headers = { ["Content-Type"] = "application/json" },
+        Body = json
+    })
+else
+    warn("No HTTP request support")
+end
+
+
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+
+WindUI:Notify({
+                        Title = "Lunar Hub is Back",
+                        Content = "Lunched Lunar hub 6.7",
+                        Duration = 3
+                    })
+
+
+
+WindUI:Popup({
+    Title = "Discord",
+    Icon = "info",
+    Content = "Join our Discord server!",
+    Buttons = {
+        {
+            Title = "Cancel",
+            Variant = "Tertiary",
+            Callback = function()
+                -- nothing
+            end,
+        },
+        {
+            Title = "Copy Discord",
+            Icon = "arrow-right",
+            Variant = "Primary",
+            Callback = function()
+                if setclipboard then
+                    setclipboard("https://discord.gg/YJ64HgMNfd")
+                    WindUI:Notify({
+                        Title = "Copied!",
+                        Content = "Discord invite copied to clipboard.",
+                        Duration = 3
+                    })
+                else
+                    warn("Clipboard function not supported by this executor.")
+                end
+            end,
+        }
+    }
+})
+
+
+
+
+
+
+-- Update your window creation with the new theme
+local Window = WindUI:CreateWindow({
+    Title = "ousa Hub",
+    Icon = "cat",
+    Author = "by archi",
+    Folder = "MySuperHub",
+    Size = UDim2.fromOffset(800, 700),
+    MinSize = Vector2.new(560, 350),
+    MaxSize = Vector2.new(1000, 1000),
+    Transparent = true,
+    Theme = "Dark",  -- Changed to new theme
+    Resizable = true,
+	Background = "rbxassetid://134927494800983",
+    SideBarWidth = 200,
+    BackgroundImageTransparency = 0.3,
+    HideSearchBar = true,
+    ScrollBarEnabled = false,
+})
+
+--//CONTIUNE HERE!!
+
+
+
+
+Window:SetToggleKey(Enum.KeyCode.K)
+
+Window:EditOpenButton({
+    Title = "ousa hub by archi",
+    Icon = "cat"
+    CornerRadius = UDim.new(0,16),
+    StrokeThickness = 2,
+    Color = ColorSequence.new( -- blue gradient for glow
+        Color3.fromHex("1e40ff"), -- deep blue
+        Color3.fromHex("60a5fa")  -- lighter neon blue
+    ),
+    OnlyMobile = false,
+    Enabled = true,
+    Draggable = true,
+})
+
+local main = Window:Tab({
+    Title = "Main",
+    Locked = false,
+})
+
+local Techs = Window:Tab({
+    Title = "Techs/Macro",
+    Locked = false,
+})
+
+local meowtech = Window:Tab({
+    Title = "meowtech/uppercut",
+    Locked = false,
+})
+
+
+
+local k1ngtech = Window:Tab({
+    Title = "k1ng tech/uppercut",
+    Locked = false,
+})
+
+local oreo = Window:Tab({
+    Title = "Oreo tech/uppercut",
+    Locked = false,
+})
+
+local kitty = Window:Tab({
+    Title = "kitty tech/uppercut",
+    Locked = false,
+})
+
+local kak = Window:Tab({
+    Title = "kakyo tech/uppercut",
+    Locked = false,
+})
+
+local inner = Window:Tab({
+    Title = "inner dash/uppercut",
+    Locked = false,
+})
+
+local instanttwis = Window:Tab({
+    Title = "instant twisted/m4",
+    Locked = false,
+})
+
+local lethal = Window:Tab({
+    Title = "lethal/lethalwhirlwind",
+    Locked = false,
+})
+
+
+
+local tech = Window:Tab({
+    Title = "kyoto",
+    Locked = false,
+})
+
+local plat = Window:Tab({
+    Title = "youtube/tiktok/discord",
+    Locked = false,
+})
+
+
+local tp = Window:Tab({
+    Title = "teleport",
+    Locked = false,
+})
+
+
+local esp = Window:Tab({
+    Title = "Esp",
+    Locked = false,
+})
+
+local M1reset = Window:Tab({
+    Title = "m1 reset",
+    Locked = false,
+})
+
+local reduce = Window:Tab({
+    Title = "reduce lag",
+    Locked = false,
+})
+
+
+
+
+main:Select() -- Select Tab
 
 local Players = game:GetService("Players")
-local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
-local HttpService = game:GetService("HttpService")
-local VirtualInputManager = game:GetService("VirtualInputManager")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Workspace = game:GetService("Workspace")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local UserInputService = game:GetService("UserInputService")
 
-local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
-local Camera = workspace.CurrentCamera
-local IS_MOBILE = UserInputService.TouchEnabled
+local player = Players.LocalPlayer
+local cam = workspace.CurrentCamera
+local DashRemote = ReplicatedStorage.Resources.Brother["#Friend"].Communicate
 
-local CoreGui = (gethui and gethui()) or game:GetService("CoreGui")
-
--- Detectar TSB
-local IS_TSB = pcall(function()
-    return ReplicatedStorage.Resources.Brother["#Friend"].Communicate
-end)
-
-local DashRemote = nil
-if IS_TSB then
-    pcall(function()
-        DashRemote = ReplicatedStorage.Resources.Brother["#Friend"].Communicate
-    end)
-end
-
---//════════════════════════════════════════════════════════════
---//                         COLORES
---//════════════════════════════════════════════════════════════
-
-local C = {
-    BG = Color3.fromRGB(16, 16, 18),
-    Header = Color3.fromRGB(12, 12, 14),
-    Card = Color3.fromRGB(26, 26, 28),
-    CardHover = Color3.fromRGB(32, 32, 35),
-    ElementBG = Color3.fromRGB(38, 38, 42),
-    ElementHover = Color3.fromRGB(46, 46, 50),
-    ToggleOff = Color3.fromRGB(45, 45, 50),
-    ToggleOn = Color3.fromRGB(80, 200, 120),
-    Text = Color3.fromRGB(235, 235, 240),
-    TextDim = Color3.fromRGB(150, 150, 158),
-    TextMute = Color3.fromRGB(100, 100, 108),
-    White = Color3.fromRGB(255, 255, 255),
-    Accent = Color3.fromRGB(80, 200, 120),
-    Danger = Color3.fromRGB(240, 80, 100),
-    Warning = Color3.fromRGB(255, 190, 70),
+-- CONSTANTS
+local UPPERCUT = {
+    ["rbxassetid://10503381238"] = true,
+    ["rbxassetid://13379003796"] = true,
 }
+local REQUIRED_ANIM_FOR_ATTACH = 10479335397
+local TARGET_ANIM_ID = 12296113986 -- Instant Lethal Trigger
+local M4_ANIM_ID = 13294471966 -- your new animation
 
-local function mk(class, props, parent)
-    local o = Instance.new(class)
-    for k, v in pairs(props or {}) do o[k] = v end
-    if parent then o.Parent = parent end
-    return o
-end
 
-local function corner(p, r)
-    return mk("UICorner", {CornerRadius = UDim.new(0, r or 6)}, p)
-end
+--var
+local hrp
+local followConnection
+local attached = false
+local MeowTechEnabled = false
+local lethalEnabled = false
+local KingTechEnabled = false
+local LethalDashEnabled = false
+local attachCooldown = false
+local AutoKyotoEnabled = false
+local lunarextender = false
+local AutoKyotoLegitEnabled = false
+local oreov2 = false
+local oreorev = false
+local kyokiedash = false
 
-local function stroke(p, transparency, thickness)
-    return mk("UIStroke", {
-        Color = Color3.fromRGB(255, 255, 255),
-        Thickness = thickness or 1,
-        Transparency = transparency or 0.8,
-        ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-    }, p)
-end
+local didUppercut = false
+local dripz = false
+local GlobalCooldown = false
+local GlobalCooldownTime = 5 -- seconds
 
-local function tw(o, props, dur, style)
-    local t = TweenService:Create(o, TweenInfo.new(dur or 0.2, style or Enum.EasingStyle.Quad), props)
-    t:Play()
-    return t
-end
+local instanttwistedv2 = false
+local instantlethal = false
+local deathcounter = false
+local AutoKyototween = false
+local meowtechv2 = false
+local boomy = false
+local kakyo = false
 
-local function pad(p, l, r, t, b)
-    return mk("UIPadding", {
-        PaddingLeft = UDim.new(0, l or 0),
-        PaddingRight = UDim.new(0, r or 0),
-        PaddingTop = UDim.new(0, t or 0),
-        PaddingBottom = UDim.new(0, b or 0),
-    }, p)
-end
+--meowsetting
+local meowstart = 0.3
+local meowDuration = 0.3
 
---//════════════════════════════════════════════════════════════
---//                      STATE GLOBAL
---//════════════════════════════════════════════════════════════
+--kingsetting
+local kingstart = 0.3
+local kingwait = 0.2
 
-local State = {
-    -- Main
-    WalkSpeedEnabled = false, WalkSpeedValue = 16,
-    TouchFling = false, NoDashCD = false, AntiDeathCounter = false,
-    -- Combat
-    AutoBlock = false, AutoBlockRange = 12, AutoBlockDelay = 0.05,
-    AutoCounter = false, AutoCounterRange = 15,
-    AutoGrasp = false, AutoGraspRange = 10,
-    AntiRagdoll = false,
-    AutoUltimate = false, AutoTarget = false, AutoSpamSkills = false,
-    SafeZoneTP = false,
-    -- Hitbox/Reach
-    HitboxEnabled = false, HitboxSize = 8, HitboxTransparency = 0.7,
-    ReachEnabled = false, ReachStuds = 20,
-    -- ESP
-    ESPEnabled = false, ESPBox = true, ESPTracers = false, ESPNames = false,
-    ESPDistance = false, ESPHealth = false, ESPTeamCheck = true,
-    ESPMaxDistance = 1000,
-    TracerOrigin = "LocalPlayer",
-    ESPBoxColor = Color3.fromRGB(80, 200, 120),
-    ESPTracerColor = Color3.fromRGB(80, 200, 120),
-    ESPTextColor = Color3.fromRGB(255, 255, 255),
-    CounterESP = false,
-    -- TODAS LAS TECHS
-    MeowTech = false, MeowTechV2 = false,
-    MeowStart = 0.3, MeowDuration = 0.3,
-    KingTech = false, KingStart = 0.3, KingWait = 0.2,
-    OreoTech = false, OreoStart = 0.3, OreoWait = 0.5, OreoCam = 1, OreoJump = 54,
-    KittyDash = false, KittyStartJump = 0.1, KittyStart = 0.3, KittyWait = 0.1, KittyCam = 1,
-    Kakyo = false, KakyoStart = 0.3, KakyoJump = 40, KakyoCam = 4,
-    InnerDash = false, InnerLethal = false,
-    InstantTwisted = false, LeeInstantTwisted = false,
-    WaitPress = 0.2, LeeWait = 0.1, Turn = -90, LeeWait2 = 0.05, Turn2 = 115,
-    LethalEnabled = false, LethalDash = false, InstantLethal = false, Boomy = false,
-    MeowLethalStart = 1.7, NormalLethalStart = 1.7, SecondForFlip = 0.2,
-    InstantLethalStart = 1.7, InstantLethalWait = 0.5,
-    BoomyStart = 1.7, BoomyJump = 60, BoomyWait = 0.1, BoomyCam = 3,
-    AutoKyoto = false, AutoKyotoTween = false, AutoKyotoLegit = false,
-    SupaTech = false, LunarExtender = false, KyokieDash = false, BackDash = false,
-    -- Movement
-    FlyEnabled = false, FlySpeed = 60,
-    -- Misc
-    ShowFPS = false, InfoOverlay = false,
-}
+--oreosettings
+local oreostart = 0.3
+local oreowait = 0.5
+local oreocam = 1
+local oreojump = 54
 
---//════════════════════════════════════════════════════════════
---//                    SCREEN GUI SETUP
---//════════════════════════════════════════════════════════════
+--kittysettings
+local kittystartjump = 0.1
+local kittystart = 0.3
+local kittywait = 0.1
+local kittycam = 1
+local kittydur = 0.2
 
-local ScreenGui = mk("ScreenGui", {
-    Name = "EyezTSBMobile",
-    ResetOnSpawn = false,
-    ZIndexBehavior = Enum.ZIndexBehavior.Global,
-    IgnoreGuiInset = true,
-}, CoreGui)
+--kakyosettings
+local kakyostart = 0.3
+local kakyojump = 40
+local kakyocam = 4
 
-local ESPGui = mk("ScreenGui", {
-    Name = "EyezTSB_ESP",
-    ResetOnSpawn = false,
-    ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
-    IgnoreGuiInset = true,
-}, CoreGui)
+--leeset
+local waitpress = 0.2
+local leewait = 0.2
+local turn = -90
+local leewait2 = 0.05
+local turn2 = 115
 
---//════════════════════════════════════════════════════════════
---//                    TAMAÑO UI MÓVIL
---//════════════════════════════════════════════════════════════
+--lethal settings
+--meowlethal
+local meowlethalstart = 1.7
+local meowlethaldur = 0.5
+--normallethal
+local normallethalstart = 1.7
+local secondforflip = 0.2
 
-local WIN_W = IS_MOBILE and 350 or 900
-local WIN_H = IS_MOBILE and 600 or 620
-local HEADER_H = 45
+local instantlethalstart = 1.7
+local instantlethalwait = 0.5
 
-local Main = mk("Frame", {
-    Size = UDim2.fromOffset(WIN_W, WIN_H),
-    Position = UDim2.new(0.5, 0, 0.5, 0),
-    AnchorPoint = Vector2.new(0.5, 0.5),
-    BackgroundColor3 = C.BG,
-    BorderSizePixel = 0,
-    ClipsDescendants = true,
-}, ScreenGui)
-corner(Main, 18)
-stroke(Main, 0.85, 1)
-mk("UIShadow", {BlurRadius = UDim.new(0, 24), Transparency = 0.5}, Main)
-
---//════════════════════════════════════════════════════════════
---//                      HEADER
---//════════════════════════════════════════════════════════════
-
-local Header = mk("Frame", {
-    Size = UDim2.new(1, 0, 0, HEADER_H),
-    BackgroundColor3 = C.Header,
-    BorderSizePixel = 0,
-    ZIndex = 3,
-}, Main)
-mk("UICorner", {
-    TopLeftRadius = UDim.new(0, 18),
-    TopRightRadius = UDim.new(0, 18),
-}, Header)
-
-mk("TextLabel", {
-    Size = UDim2.new(0, 200, 0, 16),
-    Position = UDim2.new(0, 12, 0, 6),
-    BackgroundTransparency = 1,
-    Text = "⚡ EYEZ HUB v5.2",
-    TextColor3 = C.Text,
-    TextSize = 13,
-    Font = Enum.Font.GothamBold,
-    TextXAlignment = Enum.TextXAlignment.Left,
-    ZIndex = 5,
-}, Header)
-
-mk("TextLabel", {
-    Size = UDim2.new(0, 250, 0, 12),
-    Position = UDim2.new(0, 12, 0, 24),
-    BackgroundTransparency = 1,
-    Text = "TSB | Delta | Mobile | All Techs",
-    TextColor3 = C.TextDim,
-    TextSize = 10,
-    Font = Enum.Font.Gotham,
-    TextXAlignment = Enum.TextXAlignment.Left,
-    ZIndex = 5,
-}, Header)
-
-local CloseBtn = mk("TextButton", {
-    Size = UDim2.fromOffset(28, 28),
-    Position = UDim2.new(1, -35, 0.5, -14),
-    BackgroundColor3 = C.Card,
-    BackgroundTransparency = 0.5,
-    BorderSizePixel = 0,
-    Text = "X",
-    TextColor3 = C.TextDim,
-    TextSize = 12,
-    Font = Enum.Font.GothamBold,
-    AutoButtonColor = false,
-    ZIndex = 10,
-}, Header)
-corner(CloseBtn, 8)
-CloseBtn.MouseEnter:Connect(function() tw(CloseBtn, {BackgroundColor3 = C.Danger, BackgroundTransparency = 0, TextColor3 = C.White}, 0.15) end)
-CloseBtn.MouseLeave:Connect(function() tw(CloseBtn, {BackgroundColor3 = C.Card, BackgroundTransparency = 0.5, TextColor3 = C.TextDim}, 0.15) end)
-CloseBtn.MouseButton1Click:Connect(function()
-    tw(Main, {Size = UDim2.fromOffset(0, 0)}, 0.3)
-    task.wait(0.35)
-    ScreenGui:Destroy()
-end)
-
--- Drag
-do
-    local dragging, dragStart, startPos
-    Header.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = input.Position
-            startPos = Main.Position
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then dragging = false end
-            end)
-        end
-    end)
-    Header.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            if dragging and dragStart then
-                local delta = input.Position - dragStart
-                Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-            end
-        end
-    end)
-end
-
---//════════════════════════════════════════════════════════════
---//                  CONTENT SCROLL FRAME
---//════════════════════════════════════════════════════════════
-
-local ContentWrap = mk("Frame", {
-    Size = UDim2.new(1, -14, 1, -(HEADER_H + 5)),
-    Position = UDim2.new(0, 7, 0, HEADER_H + 5),
-    BackgroundTransparency = 1,
-    ClipsDescendants = true,
-    ZIndex = 2,
-}, Main)
-
-local Content = mk("ScrollingFrame", {
-    Size = UDim2.new(1, 0, 1, 0),
-    BackgroundTransparency = 1,
-    BorderSizePixel = 0,
-    ScrollBarThickness = 3,
-    ScrollBarImageColor3 = C.TextMute,
-    ScrollBarImageTransparency = 0.5,
-    CanvasSize = UDim2.new(0, 0, 0, 0),
-    AutomaticCanvasSize = Enum.AutomaticSize.Y,
-    ScrollingDirection = Enum.ScrollingDirection.Y,
-    ZIndex = 2,
-}, ContentWrap)
-
---//════════════════════════════════════════════════════════════
---//                  UTILITY FUNCTIONS
---//════════════════════════════════════════════════════════════
-
+local boomystart = 1.7
+local boomyjump = 65
+local boomywait = 0.1
+local boomycam = 3
+-- UTIL FUNCTIONS
 local function getRoot(char)
-    if not char then return nil end
     return char:FindFirstChild("HumanoidRootPart")
         or char:FindFirstChild("UpperTorso")
         or char:FindFirstChild("LowerTorso")
         or char:FindFirstChild("Torso")
 end
 
-local function getMyHRP()
-    local char = LocalPlayer.Character
-    return char and getRoot(char)
-end
 
-local function getLiveFolder()
-    return workspace:FindFirstChild("Live")
-end
 
-local function getClosestEnemy(maxDist)
-    local myHRP = getMyHRP()
-    if not myHRP then return nil end
-    local live = getLiveFolder()
-    if not live then return nil end
-    local best, bestDist = nil, maxDist or 15
-    for _, model in ipairs(live:GetChildren()) do
-        if model:IsA("Model") and model ~= LocalPlayer.Character then
-            local hum = model:FindFirstChildOfClass("Humanoid")
-            if hum and hum.Health > 0 then
-                local root = getRoot(model)
-                if root then
-                    local dist = (root.Position - myHRP.Position).Magnitude
-                    if dist < bestDist then best = root bestDist = dist end
+
+
+-- ATTACH / DETACH
+
+
+local hiddenfling = false
+local flingPower = 10000
+local lp = Players.LocalPlayer
+local RunService = game:GetService("RunService")
+
+local function flingLoop()
+    local hrp, c, vel, movel = nil, nil, nil, 0.1
+    while true do
+        RunService.Heartbeat:Wait()
+        if hiddenfling then
+            c = lp.Character
+            hrp = c and c:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                vel = hrp.Velocity
+                hrp.Velocity = vel * flingPower + Vector3.new(0, flingPower, 0)
+                RunService.RenderStepped:Wait()
+                if c and hrp then
+                    hrp.Velocity = vel
+                end
+                RunService.Stepped:Wait()
+                if c and hrp then
+                    hrp.Velocity = vel + Vector3.new(0, movel, 0)
+                    movel = movel * -1
                 end
             end
         end
     end
-    return best
 end
 
-local function getNearestHRP(maxRange)
-    local myHRP = getMyHRP()
-    if not myHRP then return nil end
-    maxRange = maxRange or 25
-    local closest, shortest = nil, maxRange
-    for _, plr in ipairs(Players:GetPlayers()) do
-        if plr ~= LocalPlayer and plr.Character then
-            local tHRP = plr.Character:FindFirstChild("HumanoidRootPart")
-            if tHRP then
-                local dist = (myHRP.Position - tHRP.Position).Magnitude
-                if dist < shortest then shortest = dist closest = tHRP end
-            end
-        end
-    end
-    return closest
-end
-
---//════════════════════════════════════════════════════════════
---//                  INPUT SYSTEM DELTA
---//════════════════════════════════════════════════════════════
-
-local function SendKeyUniversal(keyCode)
-    pcall(function()
-        VirtualInputManager:SendKeyEvent(true, keyCode, false, game)
-        task.wait(0.02)
-        VirtualInputManager:SendKeyEvent(false, keyCode, false, game)
-    end)
-end
-
-local function SendM1()
-    pcall(function()
-        VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 0)
-        task.wait(0.02)
-        VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 0)
-    end)
-end
-
-local function fireQ()
-    if DashRemote then
-        DashRemote:FireServer({ [1] = {Dash = Enum.KeyCode.W, Key = Enum.KeyCode.Q, Goal = "KeyPress"} })
-    end
-    SendKeyUniversal(Enum.KeyCode.Q)
-end
-
-local function forceJump(height)
-    height = height or 50
-    local char = LocalPlayer.Character
-    if not char then return end
-    local hrp = char:FindFirstChild("HumanoidRootPart")
-    if hrp then
-        hrp.Velocity = Vector3.new(hrp.Velocity.X, height, hrp.Velocity.Z)
-    end
-end
-
-local function flipCamera()
-    local cam = workspace.CurrentCamera
-    if not cam then return end
-    local cf = cam.CFrame
-    local look = cf.LookVector
-    local newLook = Vector3.new(-look.X, look.Y, -look.Z)
-    cam.CFrame = CFrame.new(cf.Position, cf.Position + newLook)
-end
-
---//════════════════════════════════════════════════════════════
---//                  ANIMATION IDs
---//════════════════════════════════════════════════════════════
-
-local UPPERCUT = {
-    ["rbxassetid://10503381238"] = true,
-    ["rbxassetid://13379003796"] = true,
-}
-local REQUIRED_ANIM_FOR_ATTACH = 10479335397
-local TARGET_ANIM_ID = 12296113986
-local M4_ANIM_ID = 13294471966
-
---//════════════════════════════════════════════════════════════
---//                   RUNTIME STATE
---//════════════════════════════════════════════════════════════
-
-local Runtime = {
-    hrp = nil,
-    followConnection = nil,
-    attached = false,
-    attachCooldown = false,
-    onCooldown = false,
-    didUppercut = false,
-    lastBlockTime = 0,
-    lastCounterTime = 0,
-}
-
---//════════════════════════════════════════════════════════════
---//                  ATTACH HELPERS
---//════════════════════════════════════════════════════════════
+-- Start the loop in the background
+task.spawn(flingLoop)
 
 local function detach()
-    if Runtime.followConnection then
-        Runtime.followConnection:Disconnect()
-        Runtime.followConnection = nil
+    -- Stop follow connection if it exists
+    if followConnection then
+        followConnection:Disconnect()
+        followConnection = nil
     end
-    Runtime.attached = false
+
+    attached = false
+    -- Make player visible again
+    -- Enable hidden fling but weaker-- tweak this for ~30 studs effect
+
+    -- Automatically disable fling after a short duration
 end
 
+
+
+
 local function attachTo(enemyHRP, duration, ignoreAnim)
-    if Runtime.attached then return end
-    if not enemyHRP then return end
-    local myHRP = Runtime.hrp or getMyHRP()
-    if not myHRP then return end
-    local char = LocalPlayer.Character
-    local humanoid = char and char:FindFirstChildOfClass("Humanoid")
+    if attached then return end
+    enemyHRP = getRoot(enemyHRP.Parent)
+    if not hrp or not enemyHRP then return end
+
+    local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
     if not humanoid then return end
+
     if not ignoreAnim then
         local animPlaying = false
         for _, track in ipairs(humanoid:GetPlayingAnimationTracks()) do
-            local id = tonumber(track.Animation.AnimationId:match("%d+"))
-            if id == REQUIRED_ANIM_FOR_ATTACH then animPlaying = true break end
+            local animIdNumber = tonumber(track.Animation.AnimationId:match("%d+"))
+            if animIdNumber == REQUIRED_ANIM_FOR_ATTACH then
+                animPlaying = true
+                break
+            end
         end
         if not animPlaying then return end
     end
-    Runtime.attached = true
-    local start = tick()
-    Runtime.followConnection = RunService.Heartbeat:Connect(function()
-        if not enemyHRP or not enemyHRP.Parent then detach() return end
-        myHRP.CFrame = CFrame.new(enemyHRP.Position + Vector3.new(0, 1, 0)) * CFrame.Angles(math.rad(90), 0, 0)
-        if tick() - start >= (duration or 0.3) then detach() end
-    end)
-end
 
-local function KakyoCamera(targetPart, speed, duration)
-    local camLocal = workspace.CurrentCamera
-    local startTime = tick()
-    local conn
-    conn = RunService.RenderStepped:Connect(function()
-        if not targetPart or not targetPart.Parent then
-            if conn then conn:Disconnect() end
+    attached = true
+    
+
+    local start = tick()
+    followConnection = RunService.Heartbeat:Connect(function()
+        if not enemyHRP or not enemyHRP.Parent then
+            detach()
             return
         end
-        local camCF = camLocal.CFrame
-        local camPos = camCF.Position
-        local backPosition = targetPart.Position
-        local dir = Vector3.new(backPosition.X - camPos.X, 0, backPosition.Z - camPos.Z)
-        if dir.Magnitude > 0 then
-            dir = dir.Unit
-            local targetYaw = math.atan2(dir.Z, dir.X)
-            local currentYaw = math.atan2(camCF.LookVector.Z, camCF.LookVector.X)
-            local newYaw = currentYaw + (targetYaw - currentYaw) * speed
-            local pitch = math.asin(camCF.LookVector.Y)
-            local newLook = Vector3.new(math.cos(newYaw) * math.cos(pitch), math.sin(pitch), math.sin(newYaw) * math.cos(pitch))
-            camLocal.CFrame = CFrame.new(camPos, camPos + newLook)
-        end
-        if tick() - startTime >= duration then
-            if conn then conn:Disconnect() end
+        hrp.CFrame = CFrame.new(enemyHRP.Position + Vector3.new(0,1,0)) * CFrame.Angles(math.rad(90),0,0)
+        if tick() - start >= (duration or 0.3) then
+            detach()
         end
     end)
 end
 
+
+
+-- Handle when animations play
+local function onAnimationPlayed(track)
+    local animIdNumber = tonumber(track.Animation.AnimationId:match("%d+"))
+
+    -- If Uppercut animation plays, attempt to attach immediately
+   if animIdNumber == REQUIRED_ANIM_FOR_ATTACH then
+    if attached then return end
+    if attachCooldown then return end
+
+    attachCooldown = true
+    task.delay(0.35, function()
+        attachCooldown = false
+    end)
+
+    -- short delay ensures animation is actually playing
+    task.delay(0.08, function()
+        local enemy = getClosestEnemy(12)
+        if enemy then
+            attachTo(enemy, 0.3, true) -- ignore animation checks
+        end
+    end)
+end
+end
+
+
+
+
+
+
+
+
+
+local function getPing()
+    local stats = player:FindFirstChild("PlayerStats") or player:FindFirstChild("Stats") -- fallback
+    if player and player:GetNetworkPing() then
+        return player:GetNetworkPing() * 1000 -- converts seconds to ms
+    else
+        return 0
+    end
+end
+
+local player1 = game:GetService("Players")
+local localPlayer2 = player1.LocalPlayer
+local character3 = localPlayer2.Character or localPlayer2.CharacterAdded:Wait()
+local humanoid4 = character3:WaitForChild("Humanoid")
+
+
+
+
+
+
+-- GET CLOSEST ENEMY
+-- GET CLOSEST ENEMY (workspace.Live FIX)
+local function getClosestEnemy(maxDist)
+    if not hrp then return nil end
+
+    local liveFolder = workspace:FindFirstChild("Live")
+    if not liveFolder then
+        warn("workspace.Live not found")
+        return nil
+    end
+
+    local best, bestDist = nil, maxDist
+
+    for _, model in ipairs(liveFolder:GetChildren()) do
+        if model:IsA("Model")
+        and model ~= player.Character then
+
+            local humanoid = model:FindFirstChildOfClass("Humanoid")
+            if humanoid and humanoid.Health > 0 then
+                local root = getRoot(model)
+                if root then
+                    local dist = (root.Position - hrp.Position).Magnitude
+                    if dist < bestDist then
+                        best = root
+                        bestDist = dist
+                    end
+                end
+            end
+        end
+    end
+
+    return best
+end
+
+
+-- FIRE Q
+
+local function fireQ()
+    DashRemote:FireServer({
+        [1] = {Dash = Enum.KeyCode.W, Key = Enum.KeyCode.Q, Goal = "KeyPress"}
+    })
+    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Q, false, game)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Q, false, game)
+
+end
+
+
+workspace.FallenPartsDestroyHeight = 0/0
+workspace:GetPropertyChangedSignal("FallenPartsDestroyHeight"):Connect(function()
+    workspace.FallenPartsDestroyHeight = 0/0
+end)
+
+-- Function to make your character immune
+local function AntiDeath(char)
+    local hum = char:WaitForChild("Humanoid")
+    local hrp = char:WaitForChild("HumanoidRootPart")
+
+    -- Store last health every frame
+    local lastHealth
+    local renderConn
+    renderConn = RunService.RenderStepped:Connect(function()
+        lastHealth = hum.Health
+    end)
+
+    -- Reset health if it hits 0 below Y=0
+    hum:GetPropertyChangedSignal("Health"):Connect(function()
+        if hum.Health <= 0 and hrp.Position.Y <= 0 then
+            hum.Health = lastHealth
+        end
+    end)
+end
+
+-- Connect for current character
+if player.Character then
+    AntiDeath(player.Character)
+end
+
+-- Reconnect after respawn
+player.CharacterAdded:Connect(AntiDeath)
+
+--flip cam
+
+local function flip() 
+    if cam then
+        local cf = cam.CFrame
+        local look = cf.LookVector
+        local newLook = Vector3.new(-look.X, look.Y, -look.Z)
+        cam.CFrame = CFrame.new(cf.Position, cf.Position + newLook)
+     end
+end
+
+
+-- GLOBAL COOLDOWN FOR REQUIRED_ANIM_FOR_ATTACH
+local GlobalCooldown = false
+local GlobalCooldownTime = 5
+local LastDashTime = 0
+
+local function canUseGlobalCooldown()
+    if GlobalCooldown and tick() - LastDashTime < GlobalCooldownTime then
+        return false
+    end
+
+    -- Start cooldown
+    GlobalCooldown = true
+    LastDashTime = tick()
+
+    -- Reset after 5 seconds
+    task.delay(GlobalCooldownTime, function()
+        GlobalCooldown = false
+    end)
+
+    return true
+end
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local LocalPlayer = Players.LocalPlayer
+local attachConnection
+local isAttaching = false
+
+local function attachUnderTarget(targetCharacter, duration)
+    if isAttaching then return end
+    if not targetCharacter or not targetCharacter:FindFirstChild("HumanoidRootPart") then return end
+
+    local character = LocalPlayer.Character
+    if not character or not character:FindFirstChild("HumanoidRootPart") then return end
+
+    isAttaching = true
+    local endTime = os.clock() + duration
+
+    attachConnection = RunService.RenderStepped:Connect(function()
+        if os.clock() >= endTime then
+            attachConnection:Disconnect()
+            attachConnection = nil
+            isAttaching = false
+            return
+        end
+
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            local hrp = character.HumanoidRootPart
+            local targetHRP = targetCharacter.HumanoidRootPart
+            hrp.CFrame =
+                CFrame.new(targetHRP.Position + Vector3.new(0, 3, 0))
+                * CFrame.Angles(math.rad(90), 0, 0)
+        end
+    end)
+end
+
+
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+local cam = workspace.CurrentCamera
+local VirtualInputManager = game:GetService("VirtualInputManager") -- make sure this exists in your exploit environment
+
 local function doTwisted2()
-    local myHRP = getMyHRP()
-    if not myHRP then return end
-    local target = getNearestHRP(20)
-    if not target then return end
-    local cam = workspace.CurrentCamera
+    -- Get nearest enemy torso (R6/R15 compatible)
+    local function getNearestPlayerTorso()
+        local nearest = nil
+        local shortestDistance = math.huge
+
+        local myChar = player.Character
+        local myHRP = myChar and (myChar:FindFirstChild("HumanoidRootPart") or myChar:FindFirstChild("Torso"))
+        if not myHRP then return nil end
+
+        for _, otherPlayer in pairs(Players:GetPlayers()) do
+            if otherPlayer ~= player and otherPlayer.Character then
+                local char = otherPlayer.Character
+                local torso = char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Torso")
+                if torso then
+                    local distance = (torso.Position - myHRP.Position).Magnitude
+                    if distance < shortestDistance then
+                        shortestDistance = distance
+                        nearest = torso
+                    end
+                end
+            end
+        end
+
+        return nearest
+    end
+
+    local target = getNearestPlayerTorso()
+    if not target then return end -- no target found
+
+    -- Aim camera at target (unchanged)
     cam.CFrame = CFrame.new(cam.CFrame.Position, target.Position)
-    SendKeyUniversal(Enum.KeyCode.Q)
+
+    -- Press Q
+    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Q, false, game)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Q, false, game)
+
+    -- Teleport above enemy AND make character face enemy
+    local hrp = player.Character and (player.Character:FindFirstChild("HumanoidRootPart") or player.Character:FindFirstChild("Torso"))
+    
+
+    -- Camera rotations: -70 then +120 degrees (unchanged)
     local function rotateCamera(angle)
         local cf = cam.CFrame
         local look = cf.LookVector
@@ -501,562 +676,2660 @@ local function doTwisted2()
         local rot = CFrame.fromAxisAngle(Vector3.yAxis, math.rad(angle))
         cam.CFrame = CFrame.new(cf.Position, cf.Position + (rot * flat + Vector3.new(0, look.Y, 0)))
     end
+
     rotateCamera(-70)
+
     task.wait(0.50)
     rotateCamera(120)
 end
 
---//════════════════════════════════════════════════════════════
---//               CHARACTER SETUP - TODAS LAS TECHS
---//════════════════════════════════════════════════════════════
 
-local CharacterConnections = {}
+-- FORCE JUMP
+local function autoPressQ()
+    DashRemote:FireServer({
+        [1] = {Dash = Enum.KeyCode.W, Key = Enum.KeyCode.Q, Goal = "KeyPress"}
+    })
+    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Q, false, game)
+    task.wait(0.05)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Q, false, game)
+end
+
+local function forceJump(height)
+    height = height or 50 -- default to 50 if no value is provided
+    local char = player.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+
+    hrp.Velocity = Vector3.new(hrp.Velocity.X, height, hrp.Velocity.Z)
+end
+
+local onCooldown = false
+
+-- CHARACTER SETUP
 local function setupCharacter(char)
-    if CharacterConnections.anim then CharacterConnections.anim:Disconnect() end
-    if CharacterConnections.died then CharacterConnections.died:Disconnect() end
+    -- Wait for essential parts
+    local humanoid = char:WaitForChild("Humanoid")
+    hrp = getRoot(char) -- Get HumanoidRootPart (or fallback)
 
-    local humanoid = char:WaitForChild("Humanoid", 5)
-    if not humanoid then return end
-    Runtime.hrp = getRoot(char)
-
-    local function cleanup()
-        Runtime.attached = false
-        if Runtime.followConnection then
-            Runtime.followConnection:Disconnect()
-            Runtime.followConnection = nil
-        end
-        Runtime.hrp = nil
+    -- Reset state
+    attached = false
+    attachCooldown = false
+    if followConnection then
+        followConnection:Disconnect()
+        followConnection = nil
     end
+	
 
-    CharacterConnections.died = humanoid.Died:Connect(cleanup)
+    -- Handle death
+    humanoid.Died:Connect(function()
+        attached = false
+        if followConnection then
+            followConnection:Disconnect()
+            followConnection = nil
+        end
+        hrp = nil
+    end)
 
-    CharacterConnections.anim = humanoid.AnimationPlayed:Connect(function(track)
+    -- Handle animations
+    humanoid.AnimationPlayed:Connect(function(track)
         local anim = track.Animation
         if not anim then return end
         local animIdNumber = tonumber(anim.AnimationId:match("%d+"))
 
-        if UPPERCUT[anim.AnimationId] then
-            Runtime.didUppercut = true
-            task.delay(0.6, function() Runtime.didUppercut = false end)
-        end
+        -- Required attach animation
+		
+		-- M4 animation detection
 
-        if animIdNumber == REQUIRED_ANIM_FOR_ATTACH then
-            Runtime.onCooldown = true
-            task.delay(5, function() Runtime.onCooldown = false end)
-        end
 
-        -- ▀▀▀ MEOW TECH ▀▀▀
-        if State.MeowTech and UPPERCUT[anim.AnimationId] and not Runtime.attachCooldown then
+		-- Arm attach ONLY after uppercut
+if UPPERCUT[anim.AnimationId] then
+    didUppercut = true
+
+    -- auto reset (prevents false attach later)
+    task.delay(0.6, function()
+        didUppercut = false
+    end)
+end
+
+
+	if animIdNumber == REQUIRED_ANIM_FOR_ATTACH then
+        canUseGlobalCooldown() -- start cooldown here
+    end
+			
+		if MeowTechEnabled and animIdNumber == REQUIRED_ANIM_FOR_ATTACH and didUppercut then
+    if attached or attachCooldown then return end
+    attachCooldown = true
+    didUppercut = false -- consume the uppercut
+
+    task.delay(0.35, function() attachCooldown = false end)
+
+    task.delay(0.08, function()
+        local enemy = getClosestEnemy(12)
+        if enemy then
+            attachTo(enemy, 0.3, true)
+        end
+    end)
+end
+
+local animId5 = 10479335397
+
+
+		if animIdNumber == animId5 then
+			onCooldown = true
+			task.delay(5,function()
+				onCooldown = false
+			end)
+		end
+
+        -- MeowTech
+        if MeowTechEnabled and UPPERCUT[anim.AnimationId] and not attachCooldown then
             local enemy = getClosestEnemy(10)
             if enemy then
-                task.delay(State.MeowStart, function()
+                task.delay(meowstart, function()
                     fireQ()
-                    attachTo(enemy, State.MeowDuration)
+                    attachTo(enemy, meowDuration)
                 end)
             end
         end
 
-        -- ▀▀▀ KING TECH ▀▀▀
-        if State.KingTech and UPPERCUT[anim.AnimationId] then
-            if not Runtime.onCooldown then
-                local enemy = getClosestEnemy(10)
-                if enemy then
-                    task.delay(State.KingStart, function()
-                        fireQ()
-                        forceJump()
-                        task.delay(State.KingWait, flipCamera)
-                    end)
-                end
-            end
-        end
+if meowtechv2 and UPPERCUT[anim.AnimationId] then
+	if not onCooldown then
+    local enemyHRP = getClosestEnemy(10)
+    if enemyHRP then
+	
+        task.delay(meowstart, function()
+            autoPressQ()
+            attachUnderTarget(enemyHRP.Parent, meowDuration)
+        end)
+		end
+    end
+end
 
-        -- ▀▀▀ OREO TECH ▀▀▀
-        if State.OreoTech and UPPERCUT[anim.AnimationId] then
-            if not Runtime.onCooldown then
-                local enemy = getClosestEnemy(10)
-                if enemy then
-                    task.delay(State.OreoStart, function()
-                        fireQ()
-                        forceJump(State.OreoJump)
-                    end)
-                    task.delay(State.OreoWait, function()
-                        local targetChar = enemy.Parent
-                        local targetPart = targetChar:FindFirstChild("Right Arm") or getRoot(targetChar)
-                        if targetPart then
-                            KakyoCamera(targetPart, State.OreoCam, 0.2)
-                        end
-                    end)
-                end
-            end
-        end
-
-        -- ▀▀▀ KITTY DASH ▀▀▀
-        if State.KittyDash and UPPERCUT[anim.AnimationId] then
-            if not Runtime.onCooldown then
-                local enemy = getClosestEnemy(10)
-                if enemy then
-                    task.delay(State.KittyStartJump, function() forceJump(60) end)
-                    task.delay(State.KittyStart, function()
-                        fireQ()
-                        flipCamera()
-                        task.wait(State.KittyWait)
-                        local targetChar = enemy.Parent
-                        local targetPart = targetChar:FindFirstChild("Left Arm") or getRoot(targetChar)
-                        if targetPart then
-                            KakyoCamera(targetPart, State.KittyCam, 0.2)
-                        end
-                    end)
-                end
-            end
-        end
-
-        -- ▀▀▀ KAKYO ▀▀▀
-        if State.Kakyo and UPPERCUT[anim.AnimationId] then
-            if not Runtime.onCooldown then
-                local enemy = getClosestEnemy(10)
-                if enemy then
-                    task.delay(State.KakyoStart, function()
-                        forceJump(State.KakyoJump)
-                        local targetChar = enemy.Parent
-                        local targetPart = targetChar:FindFirstChild("Right Arm") or getRoot(targetChar)
-                        if targetPart then
-                            KakyoCamera(targetPart, State.KakyoCam, 0.3)
-                        end
-                    end)
-                end
-            end
-        end
-
-        -- ▀▀▀ INNER DASH ▀▀▀
-        if State.InnerDash and UPPERCUT[anim.AnimationId] then
-            if not Runtime.onCooldown then
+if kyokie and UPPERCUT[anim.AnimationId] then
+			if not onCooldown then
+            local enemy = getClosestEnemy(10)
+            if enemy then
                 task.delay(0.3, function()
-                    SendKeyUniversal(Enum.KeyCode.Q)
-                    local char2 = LocalPlayer.Character
-                    if not char2 then return end
-                    local hrp2 = char2:FindFirstChild("HumanoidRootPart")
-                    if hrp2 then hrp2.CFrame = hrp2.CFrame + Vector3.new(0, 3, 0) end
+                    
                 end)
             end
         end
+end
 
-        -- ▀▀▀ INSTANT TWISTED ▀▀▀
-        if State.InstantTwisted and animIdNumber == M4_ANIM_ID then
-            if not Runtime.onCooldown then
-                local enemy = getClosestEnemy(12)
-                if enemy then
-                    task.delay(0.25, function() doTwisted2() end)
+        -- KingTech
+if oreorev and UPPERCUT[anim.AnimationId] then
+    if not onCooldown then
+        local enemy = getClosestEnemy(10)
+        if enemy then
+            task.delay(0.3, function()
+                autoPressQ()
+                
+                -- Services
+                local Players = game:GetService("Players")
+                local RunService = game:GetService("RunService")
+                
+                -- Player
+                local player = Players.LocalPlayer
+                
+                -- Configuration - ADJUST THESE VALUES
+                local ROTATION_SPEED = 1.5  -- Tweaked from 0.3 to variable
+                local RANGE_LIMIT = 100  -- Distance in studs
+                local BYPASS_DURATION = 0.4  -- How long the bypass stays active
+                
+                -- State
+                local bypassActive = true
+                local connection = nil
+                local shiftLockWasEnabled = false
+                
+                -- Find nearest player
+                local function getNearestPlayer()
+                    local character = player.Character
+                    if not character then return nil end
+                    
+                    local hrp = character:FindFirstChild("HumanoidRootPart")
+                    if not hrp then return nil end
+                    
+                    local nearestPlayer = nil
+                    local nearestDistance = math.huge
+                    
+                    for _, otherPlayer in pairs(Players:GetPlayers()) do
+                        if otherPlayer ~= player and otherPlayer.Character then
+                            local otherHrp = otherPlayer.Character:FindFirstChild("HumanoidRootPart")
+                            if otherHrp then
+                                local distance = (hrp.Position - otherHrp.Position).Magnitude
+                                if distance < nearestDistance then
+                                    nearestDistance = distance
+                                    nearestPlayer = otherPlayer
+                                end
+                            end
+                        end
+                    end
+                    
+                    return nearestPlayer, nearestDistance
                 end
-            end
-        end
-
-        -- ▀▀▀ LETHAL DASH ▀▀▀
-        if State.LethalDash and animIdNumber == TARGET_ANIM_ID then
-            task.delay(State.NormalLethalStart, function()
-                forceJump()
-                fireQ()
-                task.delay(State.SecondForFlip, flipCamera)
+                
+                -- Override ShiftLock rotation with adjustable speed
+                local function enableShiftlockBypass(speedMultiplier)
+                    if connection then
+                        connection:Disconnect()
+                    end
+                    
+                    bypassActive = true
+                    
+                    -- Use custom speed or default
+                    local rotationSpeed = speedMultiplier or ROTATION_SPEED
+                    
+                    -- Store original shiftlock state
+                    shiftLockWasEnabled = player.DevEnableMouseLock
+                    
+                    connection = RunService.RenderStepped:Connect(function()
+                        local character = player.Character
+                        if not character then 
+                            disableShiftlockBypass()
+                            return 
+                        end
+                        
+                        local hrp = character:FindFirstChild("HumanoidRootPart")
+                        local humanoid = character:FindFirstChild("Humanoid")
+                        if not hrp or not humanoid then return end
+                        
+                        -- Temporarily disable auto-rotate
+                        humanoid.AutoRotate = false
+                        
+                        -- Get nearest player
+                        local nearestPlayer, distance = getNearestPlayer()
+                        
+                        if nearestPlayer and nearestPlayer.Character then
+                            local targetHrp = nearestPlayer.Character:FindFirstChild("HumanoidRootPart")
+                            if targetHrp and distance < RANGE_LIMIT then
+                                -- Calculate direction to nearest player (ignore Y axis)
+                                local targetPos = targetHrp.Position
+                                local selfPos = hrp.Position
+                                local direction = Vector3.new(
+                                    targetPos.X - selfPos.X,
+                                    0,
+                                    targetPos.Z - selfPos.Z
+                                )
+                                
+                                if direction.Magnitude > 0.1 then
+                                    -- Force rotation toward nearest player
+                                    local newCFrame = CFrame.lookAt(
+                                        hrp.Position,
+                                        hrp.Position + direction.Unit
+                                    )
+                                    
+                                    -- Apply rotation with adjustable speed
+                                    hrp.CFrame = hrp.CFrame:Lerp(newCFrame, rotationSpeed)
+                                end
+                            end
+                        end
+                    end)
+                end
+                
+                local function disableShiftlockBypass()
+                    bypassActive = false
+                    
+                    if connection then
+                        connection:Disconnect()
+                        connection = nil
+                    end
+                    
+                    -- Restore original state
+                    local character = player.Character
+                    if character then
+                        local humanoid = character:FindFirstChild("Humanoid")
+                        if humanoid then
+                            humanoid.AutoRotate = true
+                        end
+                    end
+                end
+                
+                -- Start the bypass with custom rotation speed
+                    -- You can adjust the rotation speed here:
+                    -- 0.1 = very slow/smooth, 0.5 = moderate, 1.0 = instant snap
+                    enableShiftlockBypass(0.5) -- Change this value as needed
+                
+                -- Auto-disable after configured duration
+                task.delay(BYPASS_DURATION, function()
+                    disableShiftlockBypass()
+                end)
+                
+                -- Auto-disable on character death
+                if player.Character then
+                    local humanoid = player.Character:FindFirstChild("Humanoid")
+                    if humanoid then
+                        humanoid.Died:Connect(function()
+                            disableShiftlockBypass()
+                        end)
+                    end
+                end
+                
+                player.CharacterAdded:Connect(function(character)
+                    character:WaitForChild("Humanoid").Died:Connect(function()
+                        disableShiftlockBypass()
+                    end)
+                end)
             end)
         end
+    end
+end
 
-        -- ▀▀▀ INSTANT LETHAL ▀▀▀
-        if State.InstantLethal and animIdNumber == TARGET_ANIM_ID then
-            if not Runtime.onCooldown then
-                local enemy = getClosestEnemy(10)
-                if enemy then
-                    task.delay(State.InstantLethalStart, function()
-                        fireQ()
-                        forceJump(60)
-                        task.delay(State.InstantLethalWait, function() end)
-                        local targetChar = enemy.Parent
-                        local targetPart = targetChar:FindFirstChild("Right Arm") or getRoot(targetChar)
-                        if targetPart then
-                            KakyoCamera(targetPart, 3, 0.3)
-                        end
-                    end)
+if KingTechEnabled and UPPERCUT[anim.AnimationId] then
+	if not onCooldown then
+	
+        local enemy = getClosestEnemy(10)
+        if enemy then
+            task.delay(kingstart, function()
+				autoPressQ()
+                forceJump()
+                task.delay(kingwait, flip)
+            end)
+        end
+    end
+end
+
+if innerlethal and animIdNumber == TARGET_ANIM_ID then
+        task.spawn(function()
+            task.delay(1.7, function()
+                local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+--// Player
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local hrp = character:WaitForChild("HumanoidRootPart")
+local humanoid = character:WaitForChild("Humanoid")
+
+--// Settings
+local KEY = Enum.KeyCode.E
+local RANGE = 25                 -- Max attach range
+local OFFSET = Vector3.new(0, 7, 0)  -- Up 10 studs, behind
+local LAY_ROT = CFrame.Angles(math.rad(90), 0, 0)
+local TWEEN_TIME = 0.2
+local AUTO_TIME = 1             -- Seconds before auto detach
+local MAX_DISTANCE = 30          -- Detach if target moves too far
+
+--// State
+local attached = false
+local targetHRP
+local followConn
+local lockedY
+local storedCollisions = {}
+
+--// Find nearest player
+local function getNearestHRP()
+    local closest, shortest = nil, math.huge
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= player and plr.Character then
+            local tHRP = plr.Character:FindFirstChild("HumanoidRootPart")
+            if tHRP then
+                local dist = (hrp.Position - tHRP.Position).Magnitude
+                if dist < shortest and dist <= RANGE then
+                    shortest = dist
+                    closest = tHRP
                 end
             end
         end
+    end
+    return closest
+end
 
-        -- ▀▀▀ BOOMY ▀▀▀
-        if State.Boomy and animIdNumber == TARGET_ANIM_ID then
-            local enemy = getClosestEnemy(10)
-            if enemy then
-                task.delay(State.BoomyStart, function()
-                    fireQ()
-                    flipCamera()
-                    forceJump(State.BoomyJump)
-                    task.wait(0.1)
-                    local targetChar = enemy.Parent
-                    local targetPart = targetChar:FindFirstChild("Right Arm") or getRoot(targetChar)
-                    if targetPart then
-                        KakyoCamera(targetPart, State.BoomyCam, 0.2)
+
+
+
+
+--// Collision handling
+local function disableCollision()
+    for _, part in ipairs(character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            storedCollisions[part] = part.CanCollide
+            part.CanCollide = false
+        end
+    end
+end
+
+local function restoreCollision()
+    for part, state in pairs(storedCollisions) do
+        if part and part.Parent then
+            part.CanCollide = state
+        end
+    end
+    storedCollisions = {}
+end
+
+--// Detach
+local function detach()
+    if followConn then
+        followConn:Disconnect()
+        followConn = nil
+    end
+
+    humanoid.PlatformStand = false
+    restoreCollision()
+
+    hrp.AssemblyLinearVelocity = Vector3.zero
+    hrp.AssemblyAngularVelocity = Vector3.zero
+
+    attached = false
+    targetHRP = nil
+    lockedY = nil
+end
+
+--// Attach
+local function attach()
+    targetHRP = getNearestHRP()
+    if not targetHRP then return end
+
+    attached = true
+    humanoid.PlatformStand = true
+    disableCollision()
+
+    -- Initial tween
+    local startPos = Vector3.new(targetHRP.Position.X, targetHRP.Position.Y, targetHRP.Position.Z - 2)
+    local endPos = startPos + OFFSET
+    lockedY = endPos.Y
+
+    hrp.CFrame = CFrame.new(startPos) * LAY_ROT
+
+    TweenService:Create(
+        hrp,
+        TweenInfo.new(TWEEN_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        { CFrame = CFrame.new(endPos) * LAY_ROT }
+    ):Play()
+
+    -- Follow X/Z + anti-fling
+    followConn = RunService.RenderStepped:Connect(function()
+        if not attached or not targetHRP or not targetHRP.Parent then
+            detach()
+            return
+        end
+
+        local pos = targetHRP.Position
+        hrp.CFrame = CFrame.new(pos.X + OFFSET.X, lockedY, pos.Z + OFFSET.Z) * LAY_ROT
+
+        hrp.AssemblyLinearVelocity = Vector3.zero
+        hrp.AssemblyAngularVelocity = Vector3.zero
+
+        -- Auto detach by distance
+        if (hrp.Position - targetHRP.Position).Magnitude > MAX_DISTANCE then
+            detach()
+        end
+    end)
+
+    -- Auto detach by timer
+    task.spawn(function()
+        task.wait(AUTO_TIME)
+        if attached then detach() end
+    end)
+end
+
+
+	VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Q, false, game)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Q, false, game)
+
+    if attached then
+        detach()
+    else
+        attach()
+    end
+            end)
+        end)
+    end
+
+if kyokiedash and UPPERCUT[anim.AnimationId] then
+    if not onCooldown then
+        local enemy = getClosestEnemy(10)
+        if enemy then
+            task.delay(0.3, function()
+                --// Services
+                local Players = game:GetService("Players")
+                local RunService = game:GetService("RunService")
+                local VirtualInputManager = game:GetService("VirtualInputManager")
+                
+                --// Player
+                local player = Players.LocalPlayer
+                local character = player.Character
+                if not character then return end
+                
+                local hrp = character:FindFirstChild("HumanoidRootPart")
+                local humanoid = character:FindFirstChild("Humanoid")
+                if not hrp or not humanoid then return end
+
+				local moveme = hrp:WaitForChild("moveme")
+				if moveme then
+					move:Destroy()
+				end
+
+                --// Settings
+                local OFFSET = Vector3.new(0, 7, 0)  -- 10 studs above enemy
+                local AUTO_TIME = 1
+                
+                --// State
+                local kyokieFollowConn
+                
+                --// Detach
+                local function detach()
+                    if kyokieFollowConn then
+                        kyokieFollowConn:Disconnect()
+                        kyokieFollowConn = nil
                     end
+                    humanoid.PlatformStand = false
+                    -- Reset velocity
+                    hrp.AssemblyLinearVelocity = Vector3.zero
+                    hrp.AssemblyAngularVelocity = Vector3.zero
+                end
+                
+                --// Press Q
+                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Q, false, game)
+                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Q, false, game)
+                
+                local enemyRoot = getRoot(enemy.Parent)
+                if not enemyRoot then return end
+                
+                -- Get current rotation to maintain it
+                local currentCFrame = hrp.CFrame
+                local currentLook = currentCFrame.LookVector
+                
+                -- Position above enemy but keep original rotation
+                hrp.CFrame = CFrame.new(enemyRoot.Position + OFFSET) * CFrame.new(0, 0, 0) -- No rotation change
+                
+                -- Follow enemy X/Z movement for AUTO_TIME seconds
+                local startTime = tick()
+                kyokieFollowConn = RunService.Heartbeat:Connect(function()
+                    if not enemyRoot or not enemyRoot.Parent or tick() - startTime >= AUTO_TIME then
+                        detach()
+                        return
+                    end
+                    
+                    -- Move with enemy but keep character's original facing direction
+                    hrp.CFrame = CFrame.new(
+                        enemyRoot.Position.X + OFFSET.X,
+                        enemyRoot.Position.Y + OFFSET.Y,
+                        enemyRoot.Position.Z + OFFSET.Z
+                    ) * CFrame.Angles(0, math.atan2(currentLook.X, currentLook.Z), 0)
+                    
+                    -- Prevent fling
+                    hrp.AssemblyLinearVelocity = Vector3.zero
+                    hrp.AssemblyAngularVelocity = Vector3.zero
+                end)
+                
+                -- Auto detach after time
+                task.delay(AUTO_TIME, function()
+                    if kyokieFollowConn then
+                        detach()
+                    end
+                end)
+            end)
+        end
+    end
+end  -- DON'T FORGET THIS END
+
+if innerdash and UPPERCUT[anim.AnimationId] then
+	if not onCooldown then
+	
+        local enemy = getClosestEnemy(10)
+        if enemy then
+            task.delay(0.3, function()
+				--// Services
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+--// Player
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local hrp = character:WaitForChild("HumanoidRootPart")
+local humanoid = character:WaitForChild("Humanoid")
+
+--// Settings
+local KEY = Enum.KeyCode.E
+local RANGE = 25                 -- Max attach range
+local OFFSET = Vector3.new(0, 3, 0)  -- Up 10 studs, behind
+local LAY_ROT = CFrame.Angles(math.rad(90), 0, 0)
+local TWEEN_TIME = 0.2
+local AUTO_TIME = 1             -- Seconds before auto detach
+local MAX_DISTANCE = 30          -- Detach if target moves too far
+
+--// State
+local attached = false
+local targetHRP
+local followConn
+local lockedY
+local storedCollisions = {}
+
+--// Find nearest player
+local function getNearestHRP()
+    local closest, shortest = nil, math.huge
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= player and plr.Character then
+            local tHRP = plr.Character:FindFirstChild("HumanoidRootPart")
+            if tHRP then
+                local dist = (hrp.Position - tHRP.Position).Magnitude
+                if dist < shortest and dist <= RANGE then
+                    shortest = dist
+                    closest = tHRP
+                end
+            end
+        end
+    end
+    return closest
+end
+
+
+
+--// Collision handling
+local function disableCollision()
+    for _, part in ipairs(character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            storedCollisions[part] = part.CanCollide
+            part.CanCollide = false
+        end
+    end
+end
+
+local function restoreCollision()
+    for part, state in pairs(storedCollisions) do
+        if part and part.Parent then
+            part.CanCollide = state
+        end
+    end
+    storedCollisions = {}
+end
+
+--// Detach
+local function detach()
+    if followConn then
+        followConn:Disconnect()
+        followConn = nil
+    end
+
+    humanoid.PlatformStand = false
+    restoreCollision()
+
+    hrp.AssemblyLinearVelocity = Vector3.zero
+    hrp.AssemblyAngularVelocity = Vector3.zero
+
+    attached = false
+    targetHRP = nil
+    lockedY = nil
+end
+
+--// Attach
+local function attach()
+    targetHRP = getNearestHRP()
+    if not targetHRP then return end
+
+    attached = true
+    humanoid.PlatformStand = true
+    disableCollision()
+
+    -- Initial tween
+    local startPos = Vector3.new(targetHRP.Position.X, targetHRP.Position.Y, targetHRP.Position.Z - 2)
+    local endPos = startPos + OFFSET
+    lockedY = endPos.Y
+
+    hrp.CFrame = CFrame.new(startPos) * LAY_ROT
+
+    TweenService:Create(
+        hrp,
+        TweenInfo.new(TWEEN_TIME, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        { CFrame = CFrame.new(endPos) * LAY_ROT }
+    ):Play()
+
+    -- Follow X/Z + anti-fling
+    followConn = RunService.RenderStepped:Connect(function()
+        if not attached or not targetHRP or not targetHRP.Parent then
+            detach()
+            return
+        end
+
+        local pos = targetHRP.Position
+        hrp.CFrame = CFrame.new(pos.X + OFFSET.X, lockedY, pos.Z + OFFSET.Z) * LAY_ROT
+
+        hrp.AssemblyLinearVelocity = Vector3.zero
+        hrp.AssemblyAngularVelocity = Vector3.zero
+
+        -- Auto detach by distance
+        if (hrp.Position - targetHRP.Position).Magnitude > MAX_DISTANCE then
+            detach()
+        end
+    end)
+
+    -- Auto detach by timer
+    task.spawn(function()
+        task.wait(AUTO_TIME)
+        if attached then detach() end
+    end)
+end
+
+
+	VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Q, false, game)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Q, false, game)
+
+    if attached then
+        detach()
+    else
+        attach()
+    end
+
+            end)
+        end
+    end
+end
+
+if instanttwisted and animIdNumber == M4_ANIM_ID then
+	if not onCooldown then
+		local enemy = getClosestEnemy(12)
+		if enemy then
+			task.delay(0.25, function()
+				doTwisted()
+			end)
+		end
+	end
+end
+
+if leeinstanttwisted and animIdNumber == M4_ANIM_ID then
+	if not onCooldown then
+			task.delay(waitpress, function()
+			VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Q, false, game)
+    	VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Q, false, game)
+
+local cam = workspace.CurrentCamera
+
+		task.wait(leewait)
+
+
+        local cf = cam.CFrame
+        -- Step 1: rotate +90° around Y
+        cam.CFrame = cf * CFrame.Angles(0, math.rad(turn), 0)
+
+        -- Step 2: wait 0.5 seconds
+        task.wait(leewait2)
+
+        -- Step 3: rotate -100° around Y (from current)
+        cam.CFrame = cam.CFrame * CFrame.Angles(0, math.rad(turn2), 0)
+
+
+		end)
+	end
+end
+
+
+
+
+
+
+if kakyo and UPPERCUT[anim.AnimationId] then
+    if not onCooldown then
+        local enemy = getClosestEnemy(10)
+        if enemy then
+            task.delay(kakyostart, function()
+                forceJump(kakyojump)
+                
+                -- Camera follow for 0.5 seconds
+                local startTime = tick()
+                local cam = workspace.CurrentCamera
+                local targetChar = enemy.Parent
+                local targetPart = targetChar:FindFirstChild("Right Arm") -- R6 Right Arm
+                -- Fallback to HRP if Right Arm missing
+                if not targetPart then
+                    targetPart = getRoot(targetChar)
+                end
+                local DRIPZ_CAMERA_SPEED = kakyocam
+                local connection
+                connection = game:GetService("RunService").RenderStepped:Connect(function()
+                    if not targetPart or not targetPart.Parent then
+                        connection:Disconnect()
+                        return
+                    end
+                    local camCF = cam.CFrame
+                    local camPos = camCF.Position
+                    -- Focus on a point slightly BEHIND the Right Arm
+                    local armCF = targetPart.CFrame
+                    -- Offset: -Z in local space (back of the arm)
+                    local backOffset = armCF:VectorToWorldSpace(Vector3.new(0, 0, 0)) -- 2 studs behind
+                    local backPosition = armCF.Position + backOffset
+                    -- Horizontal direction only (keep camera pitch)
+                    local dir = Vector3.new(
+                        backPosition.X - camPos.X,
+                        0, -- Ignore vertical for yaw
+                        backPosition.Z - camPos.Z
+                    )
+                    if dir.Magnitude > 0 then
+                        dir = dir.Unit
+                        local targetYaw = math.atan2(dir.Z, dir.X)
+                        local currentYaw = math.atan2(camCF.LookVector.Z, camCF.LookVector.X)
+                        local newYaw = currentYaw + (targetYaw - currentYaw) * DRIPZ_CAMERA_SPEED
+                        local pitch = math.asin(camCF.LookVector.Y)
+                        local newLook = Vector3.new(
+                            math.cos(newYaw) * math.cos(pitch),
+                            math.sin(pitch),
+                            math.sin(newYaw) * math.cos(pitch)
+                        )
+                        cam.CFrame = CFrame.new(camPos, camPos + newLook)
+                    end
+                    if tick() - startTime >= 0.3 then
+                        connection:Disconnect()
+                    end
+                end)
+            end)
+        end
+    end
+end
+
+if oreov2 and UPPERCUT[anim.AnimationId] then
+		if not onCooldown then
+        local enemy = getClosestEnemy(10)
+        if enemy then
+		task.delay(kittystartjump,function()
+			forceJump(60)
+		end)
+		
+			
+            task.delay(kittystart, function()
+			autoPressQ()
+			flip()
+			
+			-- Spawn dripz visual par
+			
+-- optional auto cleanup
+				task.wait(kittywait)
+
+                    
+
+                -- Camera follow for 0.5 seconds
+                local startTime = tick()
+                local cam = workspace.CurrentCamera
+                local targetChar = enemy.Parent
+                local targetPart = targetChar:FindFirstChild("Left Arm") -- R6 left hand
+
+                -- fallback to HRP if Left Arm missing
+                if not targetPart then
+                    targetPart = getRoot(targetChar)
+                end
+
+                local DRIPZ_CAMERA_SPEED = kittycam
+
+                local connection
+                connection = RunService.RenderStepped:Connect(function()
+                    if not targetPart or not targetPart.Parent then
+                        connection:Disconnect()
+                        return
+                    end
+
+                    local camCF = cam.CFrame
+                    local camPos = camCF.Position
+
+                    -- Horizontal direction only
+                    local lookCF = targetPart.CFrame
+                    local backPosition = lookCF.Position
+                    local dir = Vector3.new(
+                        backPosition.X - camPos.X,
+                        0,
+                        backPosition.Z - camPos.Z
+                    )
+
+                    if dir.Magnitude > 0 then
+                        dir = dir.Unit
+                        local targetYaw = math.atan2(dir.Z, dir.X)
+                        local currentYaw = math.atan2(camCF.LookVector.Z, camCF.LookVector.X)
+                        local newYaw = currentYaw + (targetYaw - currentYaw) * DRIPZ_CAMERA_SPEED
+                        local pitch = math.asin(camCF.LookVector.Y)
+                        local newLook = Vector3.new(
+                            math.cos(newYaw) * math.cos(pitch),
+                            math.sin(pitch),
+                            math.sin(newYaw) * math.cos(pitch)
+                        )
+                        cam.CFrame = CFrame.new(camPos, camPos + newLook)
+                    end
+
+                    if tick() - startTime >= 0.2 then
+                        connection:Disconnect()
+                    end
+                end)
+            end)
+        end
+	end
+end
+
+
+
+
+if dripz and UPPERCUT[anim.AnimationId] then
+    if not onCooldown then
+        local enemy = getClosestEnemy(10)
+        if enemy then
+		task.delay(oreostart,function()
+				autoPressQ()
+                forceJump(oreojump)
+		end)
+            task.delay(oreowait, function()
+                
+                
+                -- Camera follow for 0.5 seconds
+                local startTime = tick()
+                local cam = workspace.CurrentCamera
+                local targetChar = enemy.Parent
+                local targetPart = targetChar:FindFirstChild("Right Arm") -- R6 Right Arm
+                -- Fallback to HRP if Right Arm missing
+                if not targetPart then
+                    targetPart = getRoot(targetChar)
+                end
+                local DRIPZ_CAMERA_SPEED = oreocam
+                local connection
+                connection = game:GetService("RunService").RenderStepped:Connect(function()
+                    if not targetPart or not targetPart.Parent then
+                        connection:Disconnect()
+                        return
+                    end
+                    local camCF = cam.CFrame
+                    local camPos = camCF.Position
+                    -- Focus on a point slightly BEHIND the Right Arm
+                    local armCF = targetPart.CFrame
+                    -- Offset: -Z in local space (back of the arm)
+                    local backOffset = armCF:VectorToWorldSpace(Vector3.new(0, 0, -1)) -- 2 studs behind
+                    local backPosition = armCF.Position + backOffset
+                    -- Horizontal direction only (keep camera pitch)
+                    local dir = Vector3.new(
+                        backPosition.X - camPos.X,
+                        0, -- Ignore vertical for yaw
+                        backPosition.Z - camPos.Z
+                    )
+                    if dir.Magnitude > 0 then
+                        dir = dir.Unit
+                        local targetYaw = math.atan2(dir.Z, dir.X)
+                        local currentYaw = math.atan2(camCF.LookVector.Z, camCF.LookVector.X)
+                        local newYaw = currentYaw + (targetYaw - currentYaw) * DRIPZ_CAMERA_SPEED
+                        local pitch = math.asin(camCF.LookVector.Y)
+                        local newLook = Vector3.new(
+                            math.cos(newYaw) * math.cos(pitch),
+                            math.sin(pitch),
+                            math.sin(newYaw) * math.cos(pitch)
+                        )
+                        cam.CFrame = CFrame.new(camPos, camPos + newLook)
+                    end
+                    if tick() - startTime >= 0.2 then
+                        connection:Disconnect()
+                    end
+                end)
+            end)
+        end
+    end
+end
+
+if boomy and animIdNumber == TARGET_ANIM_ID then
+        local enemy = getClosestEnemy(10)
+        if enemy then
+			
+            task.delay(boomystart, function()
+			autoPressQ()
+			flip()
+			forceJump(boomyjump)
+			-- Spawn dripz visual par
+			
+-- optional auto cleanup
+				task.wait(0.1)
+
+                    
+
+                -- Camera follow for 0.5 seconds
+                local startTime = tick()
+                local cam = workspace.CurrentCamera
+                local targetChar = enemy.Parent
+                local targetPart = targetChar:FindFirstChild("Right Arm") -- R6 left hand
+
+                -- fallback to HRP if Left Arm missing
+                if not targetPart then
+                    targetPart = getRoot(targetChar)
+                end
+
+                local DRIPZ_CAMERA_SPEED = 3
+
+                local connection
+                connection = RunService.RenderStepped:Connect(function()
+                    if not targetPart or not targetPart.Parent then
+                        connection:Disconnect()
+                        return
+                    end
+
+                    local camCF = cam.CFrame
+                    local camPos = camCF.Position
+
+                    -- Horizontal direction only
+                    local lookCF = targetPart.CFrame
+                    local backPosition = lookCF.Position
+                    local dir = Vector3.new(
+                        backPosition.X - camPos.X,
+                        0,
+                        backPosition.Z - camPos.Z
+                    )
+
+                    if dir.Magnitude > 0 then
+                        dir = dir.Unit
+                        local targetYaw = math.atan2(dir.Z, dir.X)
+                        local currentYaw = math.atan2(camCF.LookVector.Z, camCF.LookVector.X)
+                        local newYaw = currentYaw + (targetYaw - currentYaw) * DRIPZ_CAMERA_SPEED
+                        local pitch = math.asin(camCF.LookVector.Y)
+                        local newLook = Vector3.new(
+                            math.cos(newYaw) * math.cos(pitch),
+                            math.sin(pitch),
+                            math.sin(newYaw) * math.cos(pitch)
+                        )
+                        cam.CFrame = CFrame.new(camPos, camPos + newLook)
+                    end
+
+                    if tick() - startTime >= 0.2 then
+                        connection:Disconnect()
+                    end
+                end)
+            end)
+        end
+end
+
+
+
+if instantlethal and animIdNumber == TARGET_ANIM_ID then
+    if not onCooldown then
+        local enemy = getClosestEnemy(10)
+        if enemy then
+			
+            task.delay(instantlethalstart, function()
+			autoPressQ()
+			forceJump(60)
+			-- Spawn dripz visual par
+			
+-- optional auto cleanup
+task.delay(instantlethalwait, function()
+    if part then part:Destroy() end
+end)
+
+                    
+
+                -- Camera follow for 0.5 seconds
+                local startTime = tick()
+                local cam = workspace.CurrentCamera
+                local targetChar = enemy.Parent
+                local targetPart = targetChar:FindFirstChild("Right Arm") -- R6 left hand
+
+                -- fallback to HRP if Left Arm missing
+                if not targetPart then
+                    targetPart = getRoot(targetChar)
+                end
+
+                local DRIPZ_CAMERA_SPEED = 3
+
+                local connection
+                connection = RunService.RenderStepped:Connect(function()
+                    if not targetPart or not targetPart.Parent then
+                        connection:Disconnect()
+                        return
+                    end
+
+                    local camCF = cam.CFrame
+                    local camPos = camCF.Position
+
+                    -- Horizontal direction only
+                    local lookCF = targetPart.CFrame
+                    local backPosition = lookCF.Position
+                    local dir = Vector3.new(
+                        backPosition.X - camPos.X,
+                        0,
+                        backPosition.Z - camPos.Z
+                    )
+
+                    if dir.Magnitude > 0 then
+                        dir = dir.Unit
+                        local targetYaw = math.atan2(dir.Z, dir.X)
+                        local currentYaw = math.atan2(camCF.LookVector.Z, camCF.LookVector.X)
+                        local newYaw = currentYaw + (targetYaw - currentYaw) * DRIPZ_CAMERA_SPEED
+                        local pitch = math.asin(camCF.LookVector.Y)
+                        local newLook = Vector3.new(
+                            math.cos(newYaw) * math.cos(pitch),
+                            math.sin(pitch),
+                            math.sin(newYaw) * math.cos(pitch)
+                        )
+                        cam.CFrame = CFrame.new(camPos, camPos + newLook)
+                    end
+
+                    if tick() - startTime >= 0.3 then
+                        connection:Disconnect()
+                    end
+                end)
+            end)
+        end
+    end
+end
+
+
+
+		if supatech and not attachCooldown and UPPERCUT[anim.AnimationId] then
+    local enemy = getClosestEnemy(10)
+    print("Closest enemy:", enemy)
+	
+	task.delay(0.3,function ()
+		if enemy then
+        local char = player.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if hrp then
+			forceJump()
+            autoPressQ()
+			local backwardVector = -hrp.CFrame.LookVector * 13
+			hrp.CFrame = hrp.CFrame + backwardVector
+        else
+            warn("HRP missing")
+        end
+    end
+	end)
+    
+end
+
+
+if deathcounter and animIdNumber == 11343250001 then
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    local TELEPORT_DISTANCE = -10000 -- how far down to go
+    local platformSize = Vector3.new(10, 1, 10) -- size of invisible platform
+
+    local originalCFrame = nil
+    local platform = nil
+    local inVoid = false
+
+    local function getRoot()
+        local char = player.Character
+        if char then
+            return char:FindFirstChild("HumanoidRootPart")
+        end
+    end
+
+    local function teleport()
+        local root = getRoot()
+        if not root then return end
+
+        if not inVoid then
+            -- Store original position
+            originalCFrame = root.CFrame
+
+            -- Create invisible platform
+            platform = Instance.new("Part")
+            platform.Size = platformSize
+            platform.Anchored = true
+            platform.Transparency = 1
+            platform.CanCollide = true
+            platform.Position = root.Position + Vector3.new(0, TELEPORT_DISTANCE - platformSize.Y/2, 0)
+            platform.Parent = workspace
+
+            -- Move player down onto platform
+            root.CFrame = platform.CFrame + Vector3.new(0, 3, 0)
+
+            inVoid = true
+
+            -- Automatically teleport back after 3 seconds
+            task.delay(6, function()
+                if root and originalCFrame then
+                    root.CFrame = originalCFrame
+                end
+                if platform then
+                    platform:Destroy()
+                    platform = nil
+                end
+				local camera = workspace.CurrentCamera
+
+-- Function to reset camera
+local function resetCamera()
+    local char = player.Character
+    if not char then return end
+
+    local humanoid = char:FindFirstChildOfClass("Humanoid")
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+
+    if humanoid then
+        camera.CameraSubject = humanoid
+        camera.CameraType = Enum.CameraType.Custom
+    elseif hrp then
+        camera.CameraSubject = hrp
+        camera.CameraType = Enum.CameraType.Custom
+    end
+end
+
+-- Run immediately
+resetCamera()
+
+                inVoid = false
+            end)
+        end
+    end
+
+    teleport()
+end
+
+    --------------------------------------------------------------------
+    -- Instant Lethal
+    --------------------------------------------------------------------
+    if lethalEnabled and animIdNumber == TARGET_ANIM_ID then
+        task.spawn(function()
+            task.delay(meowlethalstart, function()
+                local enemy = getClosestEnemy(10)
+                if enemy then
+                    fireQ()
+                    attachTo(enemy, 0.5, true)
+                end
+            end)
+        end)
+    end
+
+    --------------------------------------------------------------------
+    -- Lethal Dash
+    --------------------------------------------------------------------
+    if LethalDashEnabled and animIdNumber == TARGET_ANIM_ID then
+        task.spawn(function()
+            task.delay(normallethalstart, function()
+                forceJump()
+				autoPressQ()
+                task.delay(secondforflip, function()
+                    flip()
+                end)
+            end)
+        end)
+    end
+
+    --------------------------------------------------------------------
+-- Auto Kyoto
+--------------------------------------------------------------------
+if AutoKyotoEnabled and animIdNumber == 12273188754 then
+    task.delay(1.6, function()
+        local char = player.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            -- Press "2" key briefly
+            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Two, false, game)
+            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Two, false, game)
+            
+            -- Move forward 22 studs, keeping same Y (horizontal plane only)
+            local look = hrp.CFrame.LookVector
+            local horizontalLook = Vector3.new(look.X, 0, look.Z)
+            if horizontalLook.Magnitude > 0 then
+                horizontalLook = horizontalLook.Unit
+            end
+            hrp.CFrame = hrp.CFrame + horizontalLook * 22
+        end
+    end)
+end
+
+-------------------------------------------------------------------
+if AutoKyototween and animIdNumber == 12273188754 then
+    task.delay(1.6, function()
+        local char = player.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            -- Press "2" key briefly
+            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Two, false, game)
+            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Two, false, game)
+            
+			connecth = RunService.Heartbeat:Connect(function()
+				hrp.AssemblyLinearVelocity = hrp.CFrame.LookVector * 150
+			end)
+			task.delay(0.1,function()
+				connecth:Disconnect()
+			end)
+        end
+    end)
+end
+
+-- Auto Kyoto Legit Mode
+-- Auto Kyoto Legit Mode
+if AutoKyotoLegitEnabled and animIdNumber == 12273188754 then
+    task.delay(1.6, function()
+        local char = player.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if hrp and cam then
+            -- Press keys
+            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Two, false, game)
+            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Two, false, game)
+
+            -- Instant forward push: move exactly 10 studs forward
+            hrp.CFrame = hrp.CFrame + (hrp.CFrame.LookVector * 30)
+        end
+    end)
+end
+
+
+
+        -- Lunar Uppercut Extender
+        if lunarextender and UPPERCUT[anim.AnimationId] and not attachCooldown then
+            local enemyHRP = getClosestEnemy(10)
+            if enemyHRP then
+                task.delay(0.3, function()
+                    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.LeftShift, false, game)
+                    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.LeftShift, false, game)
+                end)
+
+                task.delay(0.5, function()
+                    local start = tick()
+                    while tick() - start < 0.3 do
+                        local hrp = getRoot(player.Character)
+                        if not hrp or not enemyHRP or not enemyHRP.Parent then break end
+                        local selfPos = hrp.Position
+                        local lookPos = enemyHRP.Position
+                        if (lookPos - selfPos).Magnitude < 0.05 then
+                            lookPos = lookPos + Vector3.new(0.1, 0, 0)
+                        end
+                        hrp.CFrame = CFrame.lookAt(selfPos, lookPos)
+                        task.wait()
+                    end
+                    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.LeftShift, false, game)
+                    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.LeftShift, false, game)
                 end)
             end
         end
+		
+
+		
+
+
     end)
 end
 
-LocalPlayer.CharacterAdded:Connect(setupCharacter)
-if LocalPlayer.Character then setupCharacter(LocalPlayer.Character) end
+-- Connect respawn
+player.CharacterAdded:Connect(function(char)
+    setupCharacter(char)
+end)
 
---//════════════════════════════════════════════════════════════
---//                   COMBAT LOOPS
---//════════════════════════════════════════════════════════════
-
-local autoBlockConn = nil
-local function startAutoBlock()
-    if autoBlockConn then return end
-    autoBlockConn = RunService.Heartbeat:Connect(function()
-        if not State.AutoBlock then return end
-        local char = LocalPlayer.Character
-        if not char then return end
-        local hum = char:FindFirstChildOfClass("Humanoid")
-        if not hum or hum.Health <= 0 then return end
-        local myHRP = char:FindFirstChild("HumanoidRootPart")
-        if not myHRP then return end
-        for _, model in ipairs(getLiveFolder():GetChildren() or {}) do
-            if model:IsA("Model") and model ~= char then
-                local eRoot = getRoot(model)
-                if eRoot then
-                    local dist = (eRoot.Position - myHRP.Position).Magnitude
-                    if dist <= State.AutoBlockRange then
-                        if tick() - Runtime.lastBlockTime > State.AutoBlockDelay then
-                            SendKeyUniversal(Enum.KeyCode.F)
-                            Runtime.lastBlockTime = tick()
-                        end
-                    end
-                end
-            end
-        end
-    end)
+-- Initial setup if already spawned
+if player.Character then
+    setupCharacter(player.Character)
 end
 
-local autoCounterConn = nil
-local function startAutoCounter()
-    if autoCounterConn then return end
-    autoCounterConn = RunService.Heartbeat:Connect(function()
-        if not State.AutoCounter then return end
-        local char = LocalPlayer.Character
-        if not char then return end
-        local myHRP = char:FindFirstChild("HumanoidRootPart")
-        if not myHRP then return end
-        for _, model in ipairs(getLiveFolder():GetChildren() or {}) do
-            if model:IsA("Model") and model ~= char then
-                local eRoot = getRoot(model)
-                if eRoot then
-                    local dist = (eRoot.Position - myHRP.Position).Magnitude
-                    if dist <= State.AutoCounterRange then
-                        if tick() - Runtime.lastCounterTime > 0.1 then
-                            SendKeyUniversal(Enum.KeyCode.Q)
-                            task.wait(0.05)
-                            SendKeyUniversal(Enum.KeyCode.F)
-                            Runtime.lastCounterTime = tick()
-                        end
-                    end
-                end
-            end
-        end
-    end)
-end
 
-local antiRagdollConn = nil
-local function startAntiRagdoll()
-    if antiRagdollConn then return end
-    antiRagdollConn = RunService.Heartbeat:Connect(function()
-        if not State.AntiRagdoll then return end
-        local char = LocalPlayer.Character
-        if not char then return end
-        local hum = char:FindFirstChildOfClass("Humanoid")
-        if not hum then return end
-        if hum.PlatformStand then hum.PlatformStand = false end
-        if hum:GetState() == Enum.HumanoidStateType.Physics then
-            hum:ChangeState(Enum.HumanoidStateType.Running)
-        end
-    end)
-end
+Techs:Toggle({
+    Title = "Enable inner dash (100%)",
+	Icon = "cat",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state) 
+        innerdash = state
+    end
+})
 
---//════════════════════════════════════════════════════════════
---//                     ESP SYSTEM
---//════════════════════════════════════════════════════════════
 
-local ESPObjects = {}
 
-local function removeESP(player)
-    local d = ESPObjects[player]
-    if not d then return end
-    if d.box then pcall(function() d.box:Destroy() end) end
-    if d.nameLbl then pcall(function() d.nameLbl:Destroy() end) end
-    if d.tracer then pcall(function() d.tracer:Destroy() end) end
-    ESPObjects[player] = nil
-end
 
-local function createESP(player)
-    if player == LocalPlayer or ESPObjects[player] then return end
-    local d = {}
-    d.box = mk("Frame", {
-        BackgroundTransparency = 1,
-        BorderSizePixel = 0,
-        Visible = false,
-        ZIndex = 5,
-    }, ESPGui)
-    corner(d.box, 2)
-    d.boxStroke = mk("UIStroke", {
-        Color = State.ESPBoxColor,
-        Thickness = 1.5,
-        Transparency = 0,
-        ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-    }, d.box)
 
-    d.nameLbl = mk("TextLabel", {
-        BackgroundTransparency = 1,
-        TextColor3 = State.ESPTextColor,
-        TextSize = 11,
-        Font = Enum.Font.GothamBold,
-        TextStrokeTransparency = 0.3,
-        TextStrokeColor3 = Color3.new(0, 0, 0),
-        TextXAlignment = Enum.TextXAlignment.Center,
-        Visible = false,
-        ZIndex = 7,
-    }, ESPGui)
+Techs:Toggle({
+    Title = "Enable MeowTech",
+	Icon = "cat",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state) 
+        MeowTechEnabled = state
+    end
+})
 
-    d.tracer = mk("Frame", {
-        BackgroundColor3 = State.ESPTracerColor,
-        BorderSizePixel = 0,
-        Visible = false,
-        ZIndex = 4,
-    }, ESPGui)
+Techs:Toggle({
+    Title = "Enable MeowTechv2",
+	Icon = "cat",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state) 
+        meowtechv2 = state
+    end
+})
 
-    ESPObjects[player] = d
-end
+Techs:Toggle({
+    Title = "Enable K1ng tech",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state) 
+        KingTechEnabled = state
+    end
+})
 
-for _, plr in ipairs(Players:GetPlayers()) do createESP(plr) end
-Players.PlayerAdded:Connect(createESP)
-Players.PlayerRemoving:Connect(removeESP)
+Techs:Toggle({
+    Title = "Enable oreo tech",
+	Icon = "moon",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state)    
+    dripz = state
+    end
+})
 
--- ESP RENDER
-RunService.RenderStepped:Connect(function()
-    if not State.ESPEnabled then return end
-    local camera = workspace.CurrentCamera
-    if not camera then return end
-    local vp = camera.ViewportSize
 
-    for player, d in pairs(ESPObjects) do
-        local char = player.Character
-        local hum = char and char:FindFirstChildOfClass("Humanoid")
-        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+Techs:Toggle({
+    Title = "kitty dash",
+	Icon = "moon",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state)    
+    oreov2 = state
+    end
+})
 
-        local function hideAll()
-            d.box.Visible = false
-            d.nameLbl.Visible = false
-            d.tracer.Visible = false
-        end
+Techs:Toggle({
+    Title = "kakyo under flip(new)",
+	Icon = "moon",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state)    
+    kakyo = state
+    end
+})
 
-        if not char or not hum or not hrp or hum.Health <= 0 then
-            hideAll()
-            continue
-        end
-        if State.ESPTeamCheck and player.Team and LocalPlayer.Team and player.Team == LocalPlayer.Team then
-            hideAll()
-            continue
-        end
+Techs:Toggle({
+    Title = "lee instant twisted",
+	Icon = "moon",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state)    
+    leeinstanttwisted = state
+    end
+})
 
-        local dist3D = (hrp.Position - camera.CFrame.Position).Magnitude
-        if dist3D > State.ESPMaxDistance then
-            hideAll()
-            continue
-        end
 
-        local pos, onScreen = camera:WorldToViewportPoint(hrp.Position)
-        if not onScreen or pos.Z <= 0 then
-            hideAll()
-            continue
-        end
+Techs:Toggle({
+    Title = "Enable MeowTech + lethal",
+	Icon = "cat",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state) 
+        lethalEnabled = state
+    end
+})
 
-        local top = camera:WorldToViewportPoint(hrp.Position + Vector3.new(0, 2.5, 0))
-        local bottom = camera:WorldToViewportPoint(hrp.Position - Vector3.new(0, 3, 0))
-        local height = math.abs(top.Y - bottom.Y)
-        if height < 15 then height = 15 end
-        local width = height * 0.7
-        local boxX = pos.X - width / 2
-        local boxY = pos.Y - height / 2
+Techs:Toggle({
+    Title = "LethalDash Enabled",
+	Icon = "moon",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state) 
+        LethalDashEnabled = state
+    end
+})
 
-        if State.ESPBox then
-            d.box.Position = UDim2.new(0, boxX, 0, boxY)
-            d.box.Size = UDim2.new(0, width, 0, height)
-            d.boxStroke.Color = State.ESPBoxColor
-            d.box.Visible = true
+Techs:Toggle({
+	Title = "Instant lethal",
+	Icon = "moon",
+	Type = "Checkbox",
+	Value = false,
+	Callback = function(state)
+		instantlethal = state
+	end
+})
+
+Techs:Toggle({
+    Title = "booomy instant lethal",
+	Icon = "moon",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state)    
+    boomy = state
+    end
+})
+
+Techs:Toggle({
+    Title = "inner lethal(90% headglide)",
+	Icon = "moon",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state)    
+    innerlethal = state
+    end
+})
+
+--settl
+
+
+
+
+
+meowtech:Input({
+    Title = "Start Time",
+    Desc = "on how long the tech start",
+    Value = "0.3",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        meowstart = input
+    end
+})
+
+meowtech:Input({
+    Title = "duration",
+    Desc = "on how long the tech end",
+    Value = "0.3",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        meowDuration = input
+    end
+})
+
+
+
+k1ngtech:Input({
+    Title = "Start Time",
+    Desc = "on how long the tech start",
+    Value = "0.3",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        kingstart = input
+    end
+})
+
+k1ngtech:Input({
+    Title = "Flip Time",
+    Desc = "on how long the flip trigger",
+    Value = "0.2",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        kingwait = input
+    end
+})
+
+
+
+oreo:Input({
+    Title = "Start Time",
+    Desc = "on how long the tech start",
+    Value = "0.3",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        oreostart = input
+    end
+})
+
+oreo:Input({
+    Title = "Rotation time",
+    Desc = "on how long it wait until the camera rotate",
+    Value = "0.5",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        oreowait = input
+    end
+})
+
+oreo:Input({
+    Title = "camera speed",
+    Desc = "on how fast the camera rotate",
+    Value = "1",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        oreocam = input
+    end
+})
+
+oreo:Input({
+    Title = "oreo duration",
+    Desc = "on how long the camera rotation stop",
+    Value = "0.2",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        oreodur = input
+    end
+})
+
+oreo:Input({
+    Title = "Jump height",
+    Desc = "on how high the jump when do the tech",
+    Value = "54",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        oreojump = input
+    end
+})
+
+
+
+kitty:Input({
+    Title = "kitty jump",
+    Desc = "start to jump when do the tech",
+    Value = "0.1",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        kittystartjump = input
+    end
+})
+
+kitty:Input({
+    Title = "Start Time",
+    Desc = "start to jump when do the tech",
+    Value = "0.3",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        kittystart = input
+    end
+})
+
+kitty:Input({
+    Title = "Rotate Time",
+    Desc = "wait for the camera to rotate",
+    Value = "0.1",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        kittywait = input
+    end
+})
+
+kitty:Input({
+    Title = "camera speed",
+    Desc = "on how fast camera rotate",
+    Value = "1",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        kittycam = input
+    end
+})
+
+kitty:Input({
+    Title = "kitty duration",
+    Desc = "on how long the camera rotation stop",
+    Value = "0.2",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        kittydur = input
+    end
+})
+
+
+
+kak:Input({
+    Title = "Start Time",
+    Desc = "on how long the tech start",
+    Value = "0.3",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        kakyostart = input
+    end
+})
+
+kak:Input({
+    Title = "kakyo jump height",
+    Desc = "on how high the jump when do the tech",
+    Value = "40",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        kakyojump = input
+    end
+})
+
+
+
+kak:Input({
+    Title = "camera speed",
+    Desc = "speed of camera rotation",
+    Value = "4",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        kakyocam = input
+    end
+})
+
+
+
+instanttwis:Input({
+    Title = "press Q Time",
+    Desc = "delay to press Q",
+    Value = "0.2",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        waitpress = input
+    end
+})
+
+instanttwis:Input({
+    Title = "wait",
+    Desc = "wait",
+    Value = "0.1",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        leewait = input
+    end
+})
+
+instanttwis:Input({
+    Title = "rotate Degree",
+    Desc = "rotate ur camera",
+    Value = "-90",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        turn = input
+    end
+})
+
+instanttwis:Input({
+    Title = "wait2",
+    Desc = "wait2",
+    Value = "0.05",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        leewait2 = input
+    end
+})
+
+instanttwis:Input({
+    Title = "rotate Degree",
+    Desc = "rotate ur camera ",
+    Value = "110",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        turn2 = input
+    end
+})
+
+
+
+
+
+
+
+
+lethal:Input({
+    Title = "Start Time(meowtech + lethal)",
+    Desc = "type a number",
+    Value = "1.7",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        meowlethalstart = input
+    end
+})
+
+
+
+lethal:Divider()
+
+
+
+lethal:Input({
+    Title = "Start Time(lethal Dash)",
+    Desc = "type a number",
+    Value = "1.7",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        meowlethalstart = input
+    end
+})
+
+lethal:Input({
+    Title = "Flip Time",
+    Desc = "type a number",
+    Value = "0.2",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        secondforflip = input
+    end
+})
+
+lethal:Divider()
+
+
+
+
+lethal:Input({
+    Title = "Start Time(instant Lethal)",
+    Desc = "type a number",
+    Value = "1.7",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        instantlethalstart = input
+    end
+})
+
+lethal:Input({
+    Title = "Rotate Time",
+    Desc = "type a number",
+    Value = "0.5",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        instantlethalwait = input
+    end
+})
+
+lethal:Divider()
+
+
+
+
+lethal:Input({
+    Title = "Start Time(Boomy Instant Lethal)",
+    Desc = "type a number",
+    Value = "1.7",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        boomystart = input
+    end
+})
+
+lethal:Input({
+    Title = "Jump Height",
+    Desc = "type a number",
+    Value = "60",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        boomyjump = input
+    end
+})
+
+lethal:Input({
+    Title = "Rotate Time",
+    Desc = "type a number",
+    Value = "0.1",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        boomywait = input
+    end
+})
+
+lethal:Input({
+    Title = "camera speed",
+    Desc = "type a number",
+    Value = "3",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter a number",
+    Callback = function(input) 
+        boomycam = input
+    end
+})
+
+
+
+
+lethal:Divider()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tech:Toggle({
+    Title = "Auto Kyoto",
+	Icon = "moon",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state)    
+    AutoKyotoEnabled = state
+    end
+})
+
+tech:Toggle({
+    Title = "Auto Kyoto tween mode",
+	Icon = "moon",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state)    
+    AutoKyototween = state
+    end
+})
+
+
+tech:Divider()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+plat:Button({
+    Title = "Copy Discord Link",
+    Desc = "Click to copy Discord link",
+    Locked = false,
+    Callback = function()
+        local success, err = pcall(function()
+            setclipboard("https://discord.gg/")
+        end)
+
+        if success then
+            print("Discord link copied to clipboard!")
+			WindUI:Notify({
+    Title = "link copied",
+    Content = "link copied",
+    Duration = 3, -- 3 seconds
+    Icon = "bird",
+})
+            -- Optionally, show a small notification in your UI
         else
-            d.box.Visible = false
+            warn("Failed to copy: "..tostring(err))
         end
+    end
+})
 
-        if State.ESPNames then
-            d.nameLbl.Text = player.Name
-            d.nameLbl.Position = UDim2.new(0, pos.X, 0, boxY - 20)
-            d.nameLbl.Size = UDim2.new(0, 100, 0, 16)
-            d.nameLbl.Visible = true
+plat:Button({
+    Title = "Copy youtube Link",
+    Desc = "Click to copy youtube link",
+    Locked = false,
+    Callback = function()
+        local success, err = pcall(function()
+            setclipboard("http://youtube.com/@kyokiee")
+        end)
+
+        if success then
+			WindUI:Notify({
+    Title = "link copied",
+    Content = "link copied",
+    Duration = 3, -- 3 seconds
+    Icon = "bird",
+})
+            -- Optionally, show a small notification in your UI
         else
-            d.nameLbl.Visible = false
+            warn("Failed to copy: "..tostring(err))
         end
+    end
+})
 
-        if State.ESPTracers then
-            local originX, originY
-            if State.TracerOrigin == "Bottom" then
-                originX = vp.X / 2
-                originY = vp.Y
-            elseif State.TracerOrigin == "Top" then
-                originX = vp.X / 2
-                originY = 0
-            else
-                local myChar = LocalPlayer.Character
-                local myHRP = myChar and myChar:FindFirstChild("HumanoidRootPart")
-                if myHRP then
-                    local myPos = camera:WorldToViewportPoint(myHRP.Position)
-                    originX = myPos.X
-                    originY = myPos.Y
+plat:Button({
+    Title = "Copy tiktok Link",
+    Desc = "Click to copy tiktok link",
+    Locked = false,
+    Callback = function()
+        local success, err = pcall(function()
+            setclipboard("http://tiktok.com/@kyokieut")
+        end)
+
+        if success then
+			WindUI:Notify({
+    Title = "link copied",
+    Content = "link copied",
+    Duration = 3, -- 3 seconds
+    Icon = "bird",
+})
+            -- Optionally, show a small notification in your UI
+        else
+            warn("Failed to copy: "..tostring(err))
+        end
+    end
+})
+
+
+main:Toggle({
+    Title = "Enable WalkSpeed",
+    Desc = "also make u no stun",
+    Icon = "cat",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(state) 
+        print("Toggle Activated" .. tostring(state))
+		WalkSpeedEnabled = state
+
+        local character = player.Character
+        if character then
+            local humanoid = character:FindFirstChild("Humanoid")
+            if humanoid then
+                if state then
+                    humanoid.WalkSpeed = walkSpeedValue
                 else
-                    originX = vp.X / 2
-                    originY = vp.Y
+                    humanoid.WalkSpeed = 23 -- reset to default
                 end
             end
+        end
+    end
+})
 
-            local toX = pos.X
-            local toY = pos.Y - height / 2
-            local dx = toX - originX
-            local dy = toY - originY
-            local len = math.sqrt(dx * dx + dy * dy)
-            if len < 1 then len = 1 end
 
-            d.tracer.Position = UDim2.new(0, originX, 0, originY)
-            d.tracer.Size = UDim2.new(0, len, 0, 1.5)
-            d.tracer.Rotation = math.deg(math.atan2(dy, dx))
-            d.tracer.AnchorPoint = Vector2.new(0, 0.5)
-            d.tracer.BackgroundColor3 = State.ESPTracerColor
-            d.tracer.Visible = true
-        else
-            d.tracer.Visible = false
+
+
+main:Slider({
+    Title = "WalkSpeed",
+    Desc = "change ur walkspeed",
+    
+    -- To make float number supported, 
+    -- make the Step a float number.
+    -- example: Step = 0.1
+    Step = 1,
+    Value = {
+        Min = 0,
+        Max = 1000,
+        Default = walkSpeedValue,
+    },
+    Callback = function(value)
+        print(value)
+
+		walkSpeedValue = value
+		 if WalkSpeedEnabled then
+            local character = player.Character
+            if character then
+                local humanoid = character:FindFirstChild("Humanoid")
+                if humanoid then
+                    humanoid.WalkSpeed = value
+                end
+            end
+        end
+    end
+})
+
+-- WalkSpeed Slider
+
+main:Toggle({
+    Title = "touch fling",
+    Desc = "fling other player when touch",
+    Icon = "bird",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(v) 
+        hiddenfling = v
+    end
+})
+
+-- Enforce WalkSpeed only when enabled
+RunService.RenderStepped:Connect(function()
+    if not WalkSpeedEnabled then return end
+
+    local character = player.Character
+    if character then
+        local humanoid = character:FindFirstChild("Humanoid")
+        if humanoid and humanoid.WalkSpeed ~= walkSpeedValue then
+            humanoid.WalkSpeed = walkSpeedValue
         end
     end
 end)
 
---//════════════════════════════════════════════════════════════
---//                 SIMPLE UI - MOBILE BUTTONS
---//════════════════════════════════════════════════════════════
+-- Apply WalkSpeed on respawn if enabled
+player.CharacterAdded:Connect(function(char)
+    local humanoid = char:WaitForChild("Humanoid")
+    if WalkSpeedEnabled then
+        humanoid.WalkSpeed = walkSpeedValue
+    end
+end)
 
-local function addCard(title, size)
-    local card = mk("Frame", {
-        Size = UDim2.new(1, -10, 0, size),
-        BackgroundColor3 = C.Card,
-        BorderSizePixel = 0,
-    }, Content)
-    corner(card, 12)
-    stroke(card, 0.85, 1)
-    pad(card, 10, 10, 8, 8)
 
-    mk("TextLabel", {
-        Size = UDim2.new(1, 0, 0, 18),
-        BackgroundTransparency = 1,
-        Text = title,
-        TextColor3 = C.Text,
-        TextSize = 12,
-        Font = Enum.Font.GothamBold,
-        TextXAlignment = Enum.TextXAlignment.Left,
-    }, card)
+local nocd = false
+local nocdConnection = nil
 
-    return card
+local Toggle = main:Toggle({
+    Title = "No Dash Cooldown (new)",
+    Desc = "Toggle to remove dash cooldown",
+    Icon = "bird",
+    Type = "Checkbox",
+    Value = false, -- default state
+    Callback = function(state)
+        if state then
+            -- Enable No Dash Cooldown
+            workspace:SetAttribute("EffectAffects", 1)
+            workspace:SetAttribute("NoDashCooldown", true)
+
+        else
+            workspace:SetAttribute("NoDashCooldown", false)
+        end
+    end
+})
+
+
+
+main:Toggle({
+    Title = "anti death counter",
+    Desc = "make u not die in deathcounter",
+    Icon = "bird",
+    Type = "Checkbox",
+    Value = false, -- default value
+    Callback = function(v) 
+        deathcounter = v
+    end
+})
+
+-- Services
+-- Services
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Table to store player buttons
+local playerButtons = {}
+
+-- Function to teleport to a player
+local function teleportToPlayer(targetPlayer)
+    if LocalPlayer.Character and targetPlayer.Character then
+        local hrp = getRoot(LocalPlayer.Character) -- Using your getRoot function
+        local targetHrp = getRoot(targetPlayer.Character)
+        if hrp and targetHrp then
+            hrp.CFrame = targetHrp.CFrame + Vector3.new(0, 0, 3) -- Teleport 3 studs behind
+        end
+    end
 end
 
-local function addToggleButton(parent, label, callback)
-    local container = mk("Frame", {
-        Size = UDim2.new(1, 0, 0, 28),
-        BackgroundTransparency = 1,
-        Parent = parent,
+-- Function to add a button for a player
+local function addPlayerButton(player)
+    if player == LocalPlayer then return end -- Skip local player
+    local button = tp:Button({
+        Title = player.Name,
+        Desc = "Teleport to " .. player.Name,
+        Locked = false,
+        Callback = function()
+            teleportToPlayer(player)
+        end
     })
+    playerButtons[player] = button -- Store button reference
+end
 
-    mk("TextLabel", {
-        Size = UDim2.new(0.7, 0, 1, 0),
-        BackgroundTransparency = 1,
-        Text = label,
-        TextColor3 = C.Text,
-        TextSize = 11,
-        Font = Enum.Font.Gotham,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        TextTruncate = Enum.TextTruncate.AtEnd,
-        Parent = container,
-    })
+-- Function to remove a button for a player
+local function removePlayerButton(player)
+    if playerButtons[player] then
+        -- WindUI doesn't have a direct destroy method, so we hide it
+        -- If WindUI supports destroying elements, replace with proper method
+        playerButtons[player] = nil -- Remove reference
+    end
+end
 
-    local toggle = mk("TextButton", {
-        Size = UDim2.new(0, 45, 0, 20),
-        Position = UDim2.new(1, -50, 0.5, -10),
-        BackgroundColor3 = C.ToggleOff,
-        BorderSizePixel = 0,
-        Text = "",
-        AutoButtonColor = false,
-        Parent = container,
-    })
-    corner(toggle, 10)
+-- Add buttons for existing players
+for _, player in ipairs(Players:GetPlayers()) do
+    addPlayerButton(player)
+end
 
-    local state = false
-    toggle.MouseButton1Click:Connect(function()
-        state = not state
-        toggle.BackgroundColor3 = state and C.ToggleOn or C.ToggleOff
-        if callback then callback(state) end
+-- Handle player joining
+Players.PlayerAdded:Connect(function(player)
+    addPlayerButton(player)
+end)
+
+-- Handle player leaving
+Players.PlayerRemoving:Connect(function(player)
+    removePlayerButton(player)
+end)
+
+-- Services
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local highlights = {}
+local connections = {}  -- To store and clean up connections
+local enabled = false
+
+-- Add highlight
+local function addHighlight(character)
+    if highlights[character] then return end
+    local h = Instance.new("Highlight")
+    h.Name = "CounterHighlight"
+    h.FillColor = Color3.fromRGB(255, 0, 0)
+    h.OutlineColor = Color3.fromRGB(255, 0, 0)
+    h.FillTransparency = 0.45
+    h.OutlineTransparency = 0
+    h.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    h.Adornee = character
+    h.Parent = character
+    highlights[character] = h
+end
+
+-- Remove highlight
+local function removeHighlight(character)
+    if highlights[character] then
+        highlights[character]:Destroy()
+        highlights[character] = nil
+    end
+end
+
+-- Clear all highlights
+local function clearAllHighlights()
+    for char, _ in pairs(highlights) do
+        removeHighlight(char)
+    end
+end
+
+-- Check if character currently has the Counter accessory
+local function hasCounterAccessory(character)
+    for _, acc in ipairs(character:GetChildren()) do
+        if acc:IsA("Accessory") and acc.Name == "Counter" then
+            return true
+        end
+    end
+    return false
+end
+
+-- Setup watching for a single character
+local function setupCharacterWatch(character)
+    -- Clean up any old connections for this character
+    if connections[character] then
+        for _, conn in pairs(connections[character]) do
+            conn:Disconnect()
+        end
+    end
+    connections[character] = {}
+
+    -- Immediate check
+    if hasCounterAccessory(character) then
+        addHighlight(character)
+    end
+
+    -- Watch for added accessories
+    local addedConn = character.ChildAdded:Connect(function(child)
+        if child:IsA("Accessory") and child.Name == "Counter" then
+            addHighlight(character)
+        end
     end)
 
-    return container
+    -- Watch for removed accessories
+    local removedConn = character.ChildRemoved:Connect(function(child)
+        if child:IsA("Accessory") and child.Name == "Counter" then
+            removeHighlight(character)
+        end
+    end)
+
+    -- Store connections
+    connections[character].added = addedConn
+    connections[character].removed = removedConn
 end
 
---//════════════════════════════════════════════════════════════
---//                    MAIN BUTTONS
---//════════════════════════════════════════════════════════════
+-- Remove watching for a character
+local function cleanupCharacterWatch(character)
+    removeHighlight(character)
+    if connections[character] then
+        for _, conn in pairs(connections[character]) do
+            conn:Disconnect()
+        end
+        connections[character] = nil
+    end
+end
 
-local techsCard = addCard("⭐ TÉCNICAS (10+)", 450)
-techsCard.Parent = Content
+-- Enable function (called when toggle ON)
+local function enableESP()
+    enabled = true
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character then
+            setupCharacterWatch(player.Character)
+        end
+    end
+end
 
-addToggleButton(techsCard, "Meow Tech", function(v) State.MeowTech = v end)
-addToggleButton(techsCard, "Meow V2", function(v) State.MeowTechV2 = v end)
-addToggleButton(techsCard, "King Tech", function(v) State.KingTech = v end)
-addToggleButton(techsCard, "Oreo Tech", function(v) State.OreoTech = v end)
-addToggleButton(techsCard, "Kitty Dash", function(v) State.KittyDash = v end)
-addToggleButton(techsCard, "Kakyo", function(v) State.Kakyo = v end)
-addToggleButton(techsCard, "Inner Dash", function(v) State.InnerDash = v end)
-addToggleButton(techsCard, "Instant Twisted", function(v) State.InstantTwisted = v end)
-addToggleButton(techsCard, "Instant Lethal", function(v) State.InstantLethal = v end)
-addToggleButton(techsCard, "Boomy", function(v) State.Boomy = v end)
-addToggleButton(techsCard, "Lethal Dash", function(v) State.LethalDash = v end)
+-- Disable function (called when toggle OFF)
+local function disableESP()
+    enabled = false
+    clearAllHighlights()
+    for character, _ in pairs(connections) do
+        if connections[character] then
+            for _, conn in pairs(connections[character]) do
+                conn:Disconnect()
+            end
+        end
+    end
+    connections = {}
+end
 
-local combatCard = addCard("🎯 COMBATE", 180)
-combatCard.Parent = Content
+-- Player handling
+local function onPlayerAdded(player)
+    if player == LocalPlayer then return end
 
-addToggleButton(combatCard, "Auto Block", function(v) State.AutoBlock = v if v then startAutoBlock() end end)
-addToggleButton(combatCard, "Auto Counter", function(v) State.AutoCounter = v if v then startAutoCounter() end end)
-addToggleButton(combatCard, "Anti Ragdoll", function(v) State.AntiRagdoll = v if v then startAntiRagdoll() end end)
+    if player.Character then
+        if enabled then
+            setupCharacterWatch(player.Character)
+        end
+    end
 
-local espCard = addCard("👁️ ESP", 150)
-espCard.Parent = Content
+    player.CharacterAdded:Connect(function(char)
+        if enabled then
+            setupCharacterWatch(char)
+        end
+    end)
 
-addToggleButton(espCard, "Enable ESP", function(v) State.ESPEnabled = v end)
-addToggleButton(espCard, "Box", function(v) State.ESPBox = v end)
-addToggleButton(espCard, "Names", function(v) State.ESPNames = v end)
-addToggleButton(espCard, "Tracers", function(v) State.ESPTracers = v end)
+    player.CharacterRemoving:Connect(function(char)
+        cleanupCharacterWatch(char)
+    end)
+end
 
-local movementCard = addCard("💨 MOVIMIENTO", 100)
-movementCard.Parent = Content
+-- Initial setup
+for _, plr in ipairs(Players:GetPlayers()) do
+    onPlayerAdded(plr)
+end
+Players.PlayerAdded:Connect(onPlayerAdded)
 
-addToggleButton(movementCard, "Walk Speed", function(v)
-    State.WalkSpeedEnabled = v
-    local hum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
-    if hum then hum.WalkSpeed = v and 50 or 16 end
+-- === UI Toggle ===
+local Toggle = esp:Toggle({
+    Title = "Counter ESP",
+    Desc = "Highlights players with death counter",
+    Icon = "crosshair",
+    Type = "Checkbox",
+    Value = false,
+    Callback = function(state)
+        if state then
+            print("Counter ESP: ON")
+            enableESP()
+        else
+            print("Counter ESP: OFF")
+            disableESP()
+        end
+    end
+})
+
+print("Counter ESP with reliable toggle loaded!")
+
+--// Services
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+
+--// Player
+local plr = Players.LocalPlayer
+
+--// State
+local debounce = false
+local connect
+
+--// Character refs
+local char = plr.Character or plr.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+local humanoid = char:WaitForChild("Humanoid")
+local animator = humanoid:FindFirstChildOfClass("Animator") or Instance.new("Animator", humanoid)
+
+--// Animation
+local ANIM_ID = "rbxassetid://10480793962"
+local anim = Instance.new("Animation")
+anim.AnimationId = ANIM_ID
+local track = animator:LoadAnimation(anim)
+
+local dashDuration = 0.2
+local dashforce = 150
+
+--// Dash Function
+local function triggerDash()
+    if debounce then return end
+    if not char or not hrp or humanoid.Health <= 0 then return end
+
+    debounce = true
+
+    -- Disable existing BodyVelocities except "moveme"
+    local disabled = {}
+    for _, v in ipairs(hrp:GetChildren()) do
+        if v:IsA("BodyVelocity") and v.Name ~= "moveme" then
+            disabled[v] = v.MaxForce
+            v.MaxForce = Vector3.zero
+        end
+    end
+
+    connect = RunService.Heartbeat:Connect(function()
+        hrp.AssemblyLinearVelocity = hrp.CFrame.RightVector * dashforce
+    end)
+
+    -- Camera spin effect
+    local cam = workspace.CurrentCamera
+    local originalCamCF = cam.CFrame
+    cam.CFrame = originalCamCF * CFrame.Angles(0, math.rad(-90), 0)
+
+    -- Play animation
+    if track then
+        track:Play()
+    end
+
+    task.wait(dashDuration)
+
+
+    -- Simulate Q key press
+    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Q, false, game)
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Q, false, game)
+
+    -- Stop dash
+    hrp.AssemblyLinearVelocity = Vector3.zero
+    cam.CFrame = originalCamCF
+
+    if connect then
+        connect:Disconnect()
+        connect = nil
+    end
+
+    -- Restore disabled BodyVelocities
+    for bv, maxForce in pairs(disabled) do
+        if bv and bv.Parent then
+            bv.MaxForce = maxForce
+        end
+    end
+
+    debounce = false
+end
+
+--// GUI Creation
+local m1reset = Instance.new("ScreenGui")
+m1reset.Name = "m1reset"
+m1reset.Parent = plr:WaitForChild("PlayerGui")
+m1reset.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+m1reset.ResetOnSpawn = false 
+
+local dashframe = Instance.new("Frame")
+dashframe.Name = "dashframe"
+dashframe.Parent = m1reset
+dashframe.BackgroundTransparency = 1
+dashframe.Size = UDim2.new(0, 150, 0, 150)
+dashframe.Position = UDim2.new(0.5, -75, 0.5, -75)
+dashframe.Active = true
+dashframe.Draggable = true
+
+local cat = Instance.new("ImageButton")
+cat.Name = "cat"
+cat.Parent = dashframe
+cat.BackgroundTransparency = 1
+cat.Position = UDim2.new(0.1, 0, 0.2, 0)
+cat.Size = UDim2.new(0, 79, 0, 72)
+cat.Image = "rbxassetid://124624838814157"
+
+local idk = Instance.new("TextLabel")
+idk.Name = "idk"
+idk.Parent = dashframe
+idk.BackgroundTransparency = 0
+idk.Position = UDim2.new(0.1, 0, 0.05, 0)
+idk.Size = UDim2.new(0, 79, 0, 18)
+idk.Font = Enum.Font.SourceSans
+idk.Text = "drag"
+idk.TextColor3 = Color3.new(0, 0, 0)
+idk.TextSize = 14
+
+--// GUI Interactions
+cat.Activated:Connect(triggerDash)
+
+--// Tech UI Keybind Integration
+-- Assuming 'tech' is your UI library
+local DashKeybind = M1reset:Keybind({ 
+    Title = "Dash Key",
+    Desc = "Key to trigger dash",
+    Value = "E",  -- default dash key
+    Callback = function(v)
+        if m1reset.Enabled then  -- Only trigger if GUI toggle is on
+            triggerDash()
+        end
+    end
+})
+
+
+local Toggle = M1reset:Toggle({
+    Title = "M1Reset",
+    Desc = "Toggle dash GUI",
+    Icon = "bird",
+    Type = "Checkbox",
+    Value = false,
+    Callback = function(state)
+        m1reset.Enabled = state
+    end
+})
+
+-- Default dash duration
+
+
+-- Update dash duration based on input
+M1reset:Input({
+    Title = "duration",
+    Desc = "on how long to dash",
+    Value = tostring(dashDuration),
+    InputIcon = "bird",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter duration in seconds...",
+    Callback = function(input) 
+        local num = tonumber(input)
+        if num then
+            dashDuration = num
+            print("Dash duration set to: " .. dashDuration)
+        else
+            warn("Invalid input for dash duration")
+        end
+    end
+})
+
+M1reset:Input({
+    Title = "dash force",
+    Desc = "speed",
+    Value = tostring(dashforce),
+    InputIcon = "bird",
+    Type = "Input", -- or "Textarea"
+    Placeholder = "Enter force in number...",
+    Callback = function(input) 
+        local num1 = tonumber(input)
+        if num1 then
+            dashforce = num1
+            print("Dash duration set to: " .. dashDuration)
+        else
+            warn("Invalid input for dash duration")
+        end
+    end
+})
+
+
+--// Handle character respawn
+plr.CharacterAdded:Connect(function(newChar)
+    char = newChar
+    hrp = char:WaitForChild("HumanoidRootPart")
+    humanoid = char:WaitForChild("Humanoid")
+    animator = humanoid:FindFirstChildOfClass("Animator") or Instance.new("Animator", humanoid)
+    
+    track = animator:LoadAnimation(anim)
 end)
-addToggleButton(movementCard, "No Dash CD", function(v) State.NoDashCD = v end)
 
---//════════════════════════════════════════════════════════════
---//                     FINALIZATION
---//════════════════════════════════════════════════════════════
+reduce:Button({
+    Title = "potato graphics",
+    Desc = "no texture",
+    Locked = false,
+    Callback = function()
+        local Workspace = game:GetService("Workspace")
 
-print("✅ EYEZ HUB TSB v5.2 - DELTA MOBILE EDITION")
-print("🎮 Completamente compatible con Delta Executor")
-print("⭐ Todas las técnicas disponibles y funcionales")
-print("💻 UI optimizada para Mobile")
-print("🔧 Presiona K para mostrar/ocultar")
+-- Function to remove all textures/decals from a part
+local function RemoveTextures(inst)
+    -- Remove decals and textures
+    for _, child in ipairs(inst:GetChildren()) do
+        if child:IsA("Decal") or child:IsA("Texture") or child:IsA("SurfaceAppearance") then
+            child:Destroy()
+        end
+    end
+
+    -- For MeshParts, remove the texture ID
+    if inst:IsA("MeshPart") then
+        inst.TextureID = ""
+        inst.Material = Enum.Material.SmoothPlastic
+    elseif inst:IsA("Part") or inst:IsA("UnionOperation") then
+        inst.Material = Enum.Material.SmoothPlastic
+    end
+end
+
+-- Clean existing parts
+for _, inst in ipairs(Workspace:GetDescendants()) do
+    RemoveTextures(inst)
+end
+
+-- Auto-clean new parts added to the workspace
+Workspace.DescendantAdded:Connect(function(inst)
+    RemoveTextures(inst)
+end)
+
+print("✅ All part textures removed")
+
+    end
+})
+
+reduce:Button({
+    Title = "reduce lag(max)",
+    Desc = "",
+    Locked = false,
+    Callback = function()
+        --// WORLD OPTIMIZER + MAP CLEANER + PARTICLE REMOVER
+--// MainPart slightly dark
+
+local Workspace = game:GetService("Workspace")
+
+-- Names to KEEP inside workspace.Map
+local KEEP_NAMES = {
+    Floor = true,
+    Roads = true,
+    MainPart = true
+}
+
+-- Dark color for MainPart (adjust if needed)
+local MAINPART_COLOR = Color3.fromRGB(80, 80, 80) -- dark gray
+
+-- Remove textures, decals, and particles
+local function CleanVisuals(inst)
+    -- Remove decals/textures
+    if inst:IsA("Decal") or inst:IsA("Texture") then
+        inst:Destroy()
+
+    elseif inst:IsA("SurfaceAppearance") then
+        inst:Destroy()
+
+    elseif inst:IsA("MeshPart") then
+        inst.Material = Enum.Material.SmoothPlastic
+        inst.TextureID = ""
+
+    elseif inst:IsA("SpecialMesh") then
+        inst.TextureId = ""
+
+    elseif inst:IsA("Part") or inst:IsA("UnionOperation") then
+        inst.Material = Enum.Material.SmoothPlastic
+    end
+
+    -- Remove particle effects
+    if inst:IsA("ParticleEmitter") or inst:IsA("Trail") or inst:IsA("Smoke") or inst:IsA("Fire") or inst:IsA("Beam") then
+        inst.Enabled = false
+        inst:Destroy()
+    end
+end
+
+-- Apply darker color to MainPart (including models)
+local function DarkenMainPart(obj)
+    if obj.Name == "MainPart" then
+        if obj:IsA("BasePart") then
+            obj.Color = MAINPART_COLOR
+        end
+
+        for _, d in ipairs(obj:GetDescendants()) do
+            if d:IsA("BasePart") then
+                d.Color = MAINPART_COLOR
+            end
+        end
+    end
+end
+
+-- Clean whole world visuals
+for _, inst in ipairs(Workspace:GetDescendants()) do
+    CleanVisuals(inst)
+end
+
+-- Map folder logic
+local Map = Workspace:FindFirstChild("Map")
+if Map then
+    -- Initial cleanup
+    for _, obj in ipairs(Map:GetChildren()) do
+        if not KEEP_NAMES[obj.Name] then
+            obj:Destroy()
+        else
+            DarkenMainPart(obj)
+        end
+    end
+
+    -- Block new unwanted objects
+    Map.ChildAdded:Connect(function(obj)
+        if not KEEP_NAMES[obj.Name] then
+            obj:Destroy()
+        else
+            DarkenMainPart(obj)
+        end
+    end)
+end
+
+-- Auto-clean new world visuals & particles
+Workspace.DescendantAdded:Connect(function(inst)
+    CleanVisuals(inst)
+end)
+
+print("✅ MainPart darkened | Textures & particles removed | UI untouched")
+
+    end
+})
