@@ -40,7 +40,7 @@ else
 end
 
 
-local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/7braga/ui.lua/refs/heads/main/jjjkj%7B.lua"))()
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
 WindUI:Notify({
                         Title = "OUSA Hub is Back",
